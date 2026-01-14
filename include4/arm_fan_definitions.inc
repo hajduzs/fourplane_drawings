@@ -1,0 +1,17 @@
+  const int F1_AA = VAR++; var_names.push_back("F1_AA");
+  const int F1_AB = VAR++; var_names.push_back("F1_AB");
+  const int F1_AC = VAR++; var_names.push_back("F1_AC");
+  const int F1_BB = VAR++; var_names.push_back("F1_BB");
+  const int F1_BC = VAR++; var_names.push_back("F1_BC");
+  const int F1_CC = VAR++; var_names.push_back("F1_CC");
+  const int F2_AA = VAR++; var_names.push_back("F2_AA");
+  const int F2_AB = VAR++; var_names.push_back("F2_AB");
+  const int F2_AC = VAR++; var_names.push_back("F2_AC");
+  const int F3_AA = VAR++; var_names.push_back("F3_AA");
+  const int ARM_0_2 = VAR++; var_names.push_back("ARM_0_2");
+  const int ARM_0_3 = VAR++; var_names.push_back("ARM_0_3");
+  const int ARM_1_2 = VAR++; var_names.push_back("ARM_1_2");
+  const int ARM_2_2 = VAR++; var_names.push_back("ARM_2_2");
+  const int ARM_2_3 = VAR++; var_names.push_back("ARM_2_3");
+  const int ARM_2_4 = VAR++; var_names.push_back("ARM_2_4");
+  const int ARM_3_3 = VAR++; var_names.push_back("ARM_3_3");

@@ -1,0 +1,12 @@
+# Binaries
+fiveplane
+fourplane
+
+# Python
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# IDE / Editor
+.vscode/
+.DS_Store
