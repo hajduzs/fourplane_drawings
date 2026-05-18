@@ -14,6 +14,7 @@ class Trail:
         self.i = i
     
     def countcell(self, cell):
+        """counts cells of type x. -for c4_qua returns 0 """
         r = 1 if self.A == cell else 0
         r += (1 if self.B == cell else 0)
         return r 
@@ -94,11 +95,11 @@ with open("../include4/traildefs.inc", "w") as f:
 #   Generate Constraints 4.*
 #
 with open("../include4/trailcounts.inc", "w") as f:
-    for k_for_k_planar,v in INNER_SEGMENTS.items():
-        count_cells_by_trails(valid_trails, k_for_k_planar, f)
+    for k,v in INNER_SEGMENTS.items():
+        count_cells_by_trails(valid_trails, k, f"4. -- {k} ",f)
         f.write("\n")
         f.write("\n")
 
     quacells = [(str(T), T.i) for T in valid_trails if T.i > 0]
     quacells.append(("c4_qua", -2))
-    write_equality(quacells, f)
+    write_equality(quacells, f"4. -- c4_qua", f)

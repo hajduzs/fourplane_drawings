@@ -10,6 +10,7 @@
   lp.set_a(F3_AA, C, 3);
   lp.set_a(c4_tri, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("5.A - fan _c4 _LEQ");
 
   lp.set_a(F1_AA, C, -1);
   lp.set_a(F1_AB, C, -1);
@@ -23,3 +24,4 @@
   lp.set_a(F3_AA, C, -3);
   lp.set_a(c4_tri, C, 1);
    lp.set_b(C++, 0);
+  constr_names.push_back("5.A - fan _c4 _GEQ");

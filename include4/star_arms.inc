@@ -28,6 +28,7 @@
   lp.set_a(STAR_63, C, 1);
   lp.set_a(ARM_0_2, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2 - ARM_0_2_LEQ");
   lp.set_a(STAR_6, C, 1);
   lp.set_a(STAR_17, C, 2);
   lp.set_a(STAR_18, C, 1);
@@ -46,6 +47,7 @@
   lp.set_a(STAR_73, C, 1);
   lp.set_a(ARM_0_3, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2 - ARM_0_3_LEQ");
   lp.set_a(STAR_36, C, 1);
   lp.set_a(STAR_110, C, 2);
   lp.set_a(STAR_111, C, 2);
@@ -55,6 +57,7 @@
   lp.set_a(STAR_115, C, 1);
   lp.set_a(ARM_1_2, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2 - ARM_1_2_LEQ");
   lp.set_a(STAR_14, C, 1);
   lp.set_a(STAR_36, C, 1);
   lp.set_a(STAR_49, C, 2);
@@ -85,6 +88,7 @@
   lp.set_a(STAR_133, C, 1);
   lp.set_a(ARM_2_2, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2 - ARM_2_2_LEQ");
   lp.set_a(STAR_15, C, 1);
   lp.set_a(STAR_37, C, 1);
   lp.set_a(STAR_50, C, 1);
@@ -115,6 +119,7 @@
   lp.set_a(STAR_143, C, 1);
   lp.set_a(ARM_2_3, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2 - ARM_2_3_LEQ");
   lp.set_a(STAR_51, C, 1);
   lp.set_a(STAR_113, C, 1);
   lp.set_a(STAR_121, C, 2);
@@ -124,6 +129,7 @@
   lp.set_a(STAR_130, C, 1);
   lp.set_a(ARM_2_4, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2 - ARM_2_4_LEQ");
   lp.set_a(STAR_25, C, 1);
   lp.set_a(STAR_66, C, 1);
   lp.set_a(STAR_88, C, 1);
@@ -136,3 +142,4 @@
   lp.set_a(STAR_159, C, 1);
   lp.set_a(ARM_3_3, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2 - ARM_3_3_LEQ");

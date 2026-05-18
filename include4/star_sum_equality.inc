@@ -172,6 +172,7 @@
   lp.set_a(STAR_172, C, 1);
   lp.set_a(SUM_STAR, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("8A - starSUM _LEQ");
 
   lp.set_a(STAR_1, C, -1);
   lp.set_a(STAR_2, C, -1);
@@ -347,3 +348,4 @@
   lp.set_a(STAR_172, C, -1);
   lp.set_a(SUM_STAR, C, 1);
    lp.set_b(C++, 0);
+  constr_names.push_back("8A - starSUM _GEQ");

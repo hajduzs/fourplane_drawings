@@ -101,7 +101,7 @@ with open("../include4/stardefs.inc", "w") as f:
 with open("../include4/star_sum_equality.inc", "w") as f:
     LHS = [(name, 1) for name in STAR_NAMES]
     LHS.append(("SUM_STAR", -1))
-    write_equality(LHS, f)
+    write_equality(LHS, f"8A - starSUM ", f)
 
 # Write Trail count lower bounds 
 with open("../include4/star_sum_lbs.inc", "w") as f:
@@ -115,7 +115,7 @@ with open("../include4/star_sum_lbs.inc", "w") as f:
             LHS.append((T, -2))         # For dull stars, double count!
         else:
             LHS.append((T, -1))
-        write_constraint(LHS, False, f)        
+        write_constraint(LHS, False, f"A1 - trail LBs:  {T}", f)        
 
 with open("../include4/star_arms.inc", "w") as f:
     for A,B in relevant_arms: 
@@ -125,7 +125,7 @@ with open("../include4/star_arms.inc", "w") as f:
             if pd.notna(val) and int(val) != 0:
                 LHS.append((row["NAME"], val))
         LHS.append((f"ARM_{A}_{B}", -1))
-        write_constraint(LHS, False, f)     
+        write_constraint(LHS, False, f"A2 - ARM_{A}_{B}", f)     
 
 with open("../include4/star_qs.inc", "w") as f:
     for A,B in relevant_qs: 
@@ -135,7 +135,7 @@ with open("../include4/star_qs.inc", "w") as f:
             if pd.notna(val) and int(val) != 0:
                 LHS.append((row["NAME"], val))
         LHS.append((f"Q_{A}_{B}", -1))
-        write_constraint(LHS, False, f)  
+        write_constraint(LHS, False, f"A2.8-11 - Q_{A}_{B}", f)  
 
 with open("../include4/star_corners.inc", "w") as f:
     for C in relevant_corners: 
@@ -148,7 +148,7 @@ with open("../include4/star_corners.inc", "w") as f:
             LHS.append((C, -2))         # For dull stars, double count!
         else:
             LHS.append((C, -1))
-        write_constraint(LHS, False, f)   
+        write_constraint(LHS, False, f"A3 - corner {C}",  f)   
 
 
 with open("../include4/edge_sums.inc", "w") as f:
@@ -165,4 +165,4 @@ with open("../include4/edge_sums.inc", "w") as f:
             LHS.append(("t2_c4_tri_c5_qua", 1))
             LHS.append(("F2_AA", 1))         
         LHS.append((E, -1))
-        write_constraint(LHS, False, f)  
+        write_constraint(LHS, False, f"9.B-C - star edges {E}", f)  

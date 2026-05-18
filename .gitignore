@@ -6,6 +6,7 @@ fourplane
 __pycache__/
 *.py[cod]
 .ipynb_checkpoints/
+.venv/
 
 # IDE / Editor
 .vscode/

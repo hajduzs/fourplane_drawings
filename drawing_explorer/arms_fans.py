@@ -96,7 +96,7 @@ with open("../include4/fan_c4_cells.inc", "w") as f:
     for k,v in FAN_SEQUENCES.items():
         LHS.append((k, v.count(X)))
     LHS.append(("c4_tri",-1))
-    write_equality(LHS, f)
+    write_equality(LHS, f"5.A - fan _c4 ", f)
 
 with open("../include4/arm_fan_containments.inc", "w") as f:
 
@@ -118,7 +118,7 @@ with open("../include4/arm_fan_containments.inc", "w") as f:
             
         # finish with defining equality
         EQ.append((f"ARM_{A}_{B}", -1))
-        write_equality(EQ, f)
+        write_equality(EQ, f"A4 - AFC_{A}_{B}", f)
 
     #print(fan_lower_bounds)
     # finally, finish with recording te LB constraints on fans 
@@ -127,7 +127,7 @@ with open("../include4/arm_fan_containments.inc", "w") as f:
         for AFC in v:
             LHS.append((AFC, 1))
         LHS.append((k, -1))
-        write_constraint(LHS, False, f)
+        write_constraint(LHS, False,f"A5 - fans in arms - {k}", f)
 
 
         

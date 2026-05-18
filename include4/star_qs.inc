@@ -10,6 +10,7 @@
   lp.set_a(STAR_167, C, 1);
   lp.set_a(Q_3_3, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2.8-11 - Q_3_3_LEQ");
   lp.set_a(STAR_6, C, 1);
   lp.set_a(STAR_25, C, 2);
   lp.set_a(STAR_26, C, 1);
@@ -24,6 +25,7 @@
   lp.set_a(STAR_91, C, 1);
   lp.set_a(Q_2_9, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2.8-11 - Q_2_9_LEQ");
   lp.set_a(STAR_8, C, 2);
   lp.set_a(STAR_27, C, 2);
   lp.set_a(STAR_28, C, 1);
@@ -38,6 +40,7 @@
   lp.set_a(STAR_97, C, 1);
   lp.set_a(Q_3_9, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2.8-11 - Q_3_9_LEQ");
   lp.set_a(STAR_3, C, 1);
   lp.set_a(STAR_23, C, 2);
   lp.set_a(STAR_24, C, 1);
@@ -46,3 +49,4 @@
   lp.set_a(STAR_85, C, 1);
   lp.set_a(Q_9_9, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A2.8-11 - Q_9_9_LEQ");

@@ -109,6 +109,7 @@
   lp.set_a(STAR_109, C, 1);
   lp.set_a(t0_c3_tri_c5_pen, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A1 - trail LBs:  t0_c3_tri_c5_pen_LEQ");
   lp.set_a(STAR_35, C, 1);
   lp.set_a(STAR_36, C, 1);
   lp.set_a(STAR_37, C, 1);
@@ -124,6 +125,7 @@
   lp.set_a(STAR_118, C, 1);
   lp.set_a(t1_c3_tri_c5_pen, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A1 - trail LBs:  t1_c3_tri_c5_pen_LEQ");
   lp.set_a(STAR_2, C, 1);
   lp.set_a(STAR_5, C, 2);
   lp.set_a(STAR_6, C, 1);
@@ -259,6 +261,7 @@
   lp.set_a(STAR_164, C, 1);
   lp.set_a(t0_c4_tri_c5_pen, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A1 - trail LBs:  t0_c4_tri_c5_pen_LEQ");
   lp.set_a(STAR_3, C, 1);
   lp.set_a(STAR_6, C, 1);
   lp.set_a(STAR_8, C, 2);
@@ -370,6 +373,7 @@
   lp.set_a(STAR_171, C, 1);
   lp.set_a(t1_c4_tri_c5_pen, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A1 - trail LBs:  t1_c4_tri_c5_pen_LEQ");
   lp.set_a(STAR_46, C, 1);
   lp.set_a(STAR_51, C, 1);
   lp.set_a(STAR_56, C, 1);
@@ -385,6 +389,7 @@
   lp.set_a(STAR_146, C, 1);
   lp.set_a(t2_c4_tri_c5_pen, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A1 - trail LBs:  t2_c4_tri_c5_pen_LEQ");
   lp.set_a(STAR_4, C, 1);
   lp.set_a(STAR_7, C, 1);
   lp.set_a(STAR_9, C, 1);
@@ -496,6 +501,7 @@
   lp.set_a(STAR_172, C, 5);
   lp.set_a(t0_c5_pen_c5_pen, C, -2);
    lp.set_b(C++, 0);
+  constr_names.push_back("A1 - trail LBs:  t0_c5_pen_c5_pen_LEQ");
   lp.set_a(STAR_48, C, 1);
   lp.set_a(STAR_53, C, 1);
   lp.set_a(STAR_58, C, 1);
@@ -511,3 +517,4 @@
   lp.set_a(STAR_148, C, 1);
   lp.set_a(t1_c5_pen_c5_pen, C, -2);
    lp.set_b(C++, 0);
+  constr_names.push_back("A1 - trail LBs:  t1_c5_pen_c5_pen_LEQ");

@@ -51,6 +51,7 @@
   lp.set_a(STAR_82, C, 1);
   lp.set_a(c6_qua, C, -2);
    lp.set_b(C++, 0);
+  constr_names.push_back("A3 - corner c6_qua_LEQ");
   lp.set_a(STAR_1, C, 5);
   lp.set_a(STAR_2, C, 2);
   lp.set_a(STAR_3, C, 3);
@@ -80,3 +81,4 @@
   lp.set_a(STAR_34, C, 1);
   lp.set_a(mysterycell, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("A3 - corner mysterycell_LEQ");

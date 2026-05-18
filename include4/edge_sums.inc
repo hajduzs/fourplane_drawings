@@ -54,6 +54,7 @@
   lp.set_a(F1_AA, C, 1);
   lp.set_a(E_2, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("9.B-C - star edges E_2_LEQ");
   lp.set_a(STAR_12, C, 1);
   lp.set_a(STAR_15, C, 1);
   lp.set_a(STAR_18, C, 1);
@@ -122,3 +123,4 @@
   lp.set_a(F2_AA, C, 1);
   lp.set_a(E_3, C, -1);
    lp.set_b(C++, 0);
+  constr_names.push_back("9.B-C - star edges E_3_LEQ");

@@ -103,7 +103,7 @@ with open("../include4/Q_Trail_containments.inc", "w") as f:
             
         # finish with defining equality
         EQ.append((f"Q_{A}_{B}", -1))
-        write_equality(EQ, f)
+        write_equality(EQ, f"A6 - Q_{A}_{B}", f)
 
     #print(fan_lower_bounds)
     # finally, finish with recording te LB constraints on trails 
@@ -114,4 +114,4 @@ with open("../include4/Q_Trail_containments.inc", "w") as f:
         for QTC in v:
             LHS.append((QTC, 1))
         LHS.append((k, -1))
-        write_constraint(LHS, False, f)
+        write_constraint(LHS, False, f"A7 - {k}", f)

@@ -66,14 +66,34 @@ void save_matrix_to_file(const Program& lp, const std::string& filename) {
     out << "]";
     out.close();
 }
+
+void save_primal_to_file(const Solution& s, const std::string& filename) {
+    std::ofstream out(filename);
+    if (!out.is_open()) {
+        std::cerr << "Error: Could not write primal to " << filename << "\n";
+        return;
+    }
+    
+    out << "[";
+    auto it = s.variable_values_begin();
+    auto end = s.variable_values_end();
+    
+    bool first = true;
+    for (; it != end; ++it) {
+        if (!first) out << ","; 
+        out << "fr(" << it->numerator() << "," << it->denominator() << ")";
+        first = false;
+    }
+    out << "]\n";
+}
  
 int main() {
   
     Program lp (CGAL::SMALLER, true, 0, false, 0);
     // Variable counter, and names. 
     int VAR = 0; std::vector<std::string> var_names;
-    // inequality counter
-    int C = 0;  
+    // inequality counter and names for easier debugging
+    int C = 0;   std::vector<std::string> constr_names;
 
     // -------------------------
     // ------ Variables --------
@@ -160,6 +180,7 @@ int main() {
     lp.set_a(c3_tri, C, -9); lp.set_a(c4_tri, C, -4); lp.set_a(c4_qua, C, -4);
     lp.set_a(c5_pen, C, 1); lp.set_a(c5_qua, C, 1); lp.set_a(c5_tri, C, 1);
     lp.set_b(C++, 24);
+    constr_names.push_back("1.A / Density Formula");
 
     // 1.B -- lower bounding the number of large cells
     lp.set_a(t3_c4_tri_large, C, 1); lp.set_a(t3_large_large, C, 2); 
@@ -170,43 +191,52 @@ int main() {
     lp.set_a(LC_INCIDENCE, C, 1);
     lp.set_a(SUM_LARGE, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("1.B / Large_cell_LB");
 
     // 2.A -- counting edges, crossed and uncrossed 
     lp.set_a(E_0, C, 1); lp.set_a(E_x, C, 1); 
     lp.set_a(E, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("2.A = EO EX");
     
     lp.set_a(E, C, 1);
     lp.set_a(E_0, C, -1); lp.set_a(E_x, C, -1); 
     lp.set_b(C++, 0);
+    constr_names.push_back("2.A = EO EX");
 
     // 2.B -- counting crossed edges
     lp.set_a(E_1, C, 1); lp.set_a(E_2, C, 1); lp.set_a(E_3, C, 1); lp.set_a(E_4, C, 1);
     lp.set_a(E_x, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("2.B = EX E1->4");
 
     lp.set_a(E_x, C, 1);
     lp.set_a(E_1, C, -1); lp.set_a(E_2, C, -1); lp.set_a(E_3, C, -1); lp.set_a(E_4, C, -1); 
     lp.set_b(C++, 0);
+    constr_names.push_back("2.B = EX E1->4");
 
     // 2.C  -- counting crossings
     lp.set_a(E_1, C, 1); lp.set_a(E_2, C, 2); lp.set_a(E_3, C, 3); lp.set_a(E_4, C, 4); 
     lp.set_a(X, C, -2);
     lp.set_b(C++, 0);
+    constr_names.push_back("2.C = EX X");
     
     lp.set_a(X, C, 2);
     lp.set_a(E_1, C, -1); lp.set_a(E_2, C, -2); lp.set_a(E_3, C, -3); lp.set_a(E_4, C, -4); 
     lp.set_b(C++, 0);
+    constr_names.push_back("2.C = EX X");
 
     // 3.A -- uncrossed edges
     lp.set_a(c5_tri, C, 1); lp.set_a(c6_qua, C, 1); lp.set_a(c7_pen, C, 1); 
     lp.set_a(E_0, C, -2);
     lp.set_b(C++, 0);
+    constr_names.push_back("3.A cell->E_0");
     
     // 3.B  -- outer edge segments
     lp.set_a(c4_tri, C, 2); lp.set_a(c5_qua, C, 2); lp.set_a(c5_tri, C, 2); lp.set_a(c6_qua, C, 2); lp.set_a(c7_pen, C, 2);
     lp.set_a(E_x, C, -4); 
     lp.set_b(C++, 0);
+    constr_names.push_back("3.B cell->E_outer");
 
     // 3.C -- inner edge segments 
     lp.set_a(c3_tri, C, 3); lp.set_a(c4_qua, C, 4); lp.set_a(c4_tri, C ,1); lp.set_a(c5_qua, C, 2); lp.set_a(c5_pen, C, 5); lp.set_a(c6_qua, C, 1); lp.set_a(c7_pen, C, 2);
@@ -216,6 +246,7 @@ int main() {
     lp.set_a(t0_c3_tri_large, C, 1); lp.set_a(t0_c4_tri_large, C, 1); lp.set_a(t0_c5_qua_large, C, 1); lp.set_a(t0_c5_pen_large, C, 1); lp.set_a(t1_large_large, C, 2); 
     lp.set_a(E_2, C, -2); lp.set_a(E_3, C, -4); lp.set_a(E_4, C, -6);
     lp.set_b(C++, 0);
+   constr_names.push_back("3.C cell->E_inner"); 
 
     // ##############################
     // 4.A-E  -- Trail cell counting
@@ -231,53 +262,64 @@ int main() {
     lp.set_a(T3_0_empty, C, 1); lp.set_a(T3_0_c4tri, C , 1); lp.set_a(T3_0_c5qua, C , 1); lp.set_a(T3_0_large, C , 1);
     lp.set_a(t0_c3_tri_c5_qua, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("6.A - T3 cumstom conf "); 
 
     lp.set_a(t0_c3_tri_c5_qua, C, 1);
     lp.set_a(T3_0_empty, C ,-1); lp.set_a(T3_0_c4tri, C ,-1); lp.set_a(T3_0_c5qua, C ,-1); lp.set_a(T3_0_large, C ,-1);
     lp.set_b(C++, 0);
+    constr_names.push_back("6.A - T3 cumstom conf "); 
 
     // 6.B
     lp.set_a(T4_1_empty, C, 1); lp.set_a(T4_1_c4tri, C , 1); lp.set_a(T4_1_c5qua, C , 1); lp.set_a(T4_1_large, C , 1);
     lp.set_a(t1_c4_tri_c5_qua, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("6.b - T4 cumstom conf "); 
 
     lp.set_a(t1_c4_tri_c5_qua, C, 1);
     lp.set_a(T4_1_empty, C ,-1); lp.set_a(T4_1_c4tri, C ,-1); lp.set_a(T4_1_c5qua, C ,-1); lp.set_a(T4_1_large, C ,-1);
     lp.set_b(C++, 0);
+    constr_names.push_back("6.b - T4 cumstom conf "); 
 
     // 6.C
     lp.set_a(T5_0_empty, C, 1); lp.set_a(T5_0_c4tri, C , 1); lp.set_a(T5_0_c5qua, C , 1); lp.set_a(T5_0_large, C , 1);
     lp.set_a(t0_c5_pen_c5_qua, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("6.C - T5 cumstom conf "); 
 
     lp.set_a(t0_c5_pen_c5_qua, C, 1);
     lp.set_a(T5_0_empty, C ,-1); lp.set_a(T5_0_c4tri, C ,-1); lp.set_a(T5_0_c5qua, C ,-1); lp.set_a(T5_0_large, C ,-1);
     lp.set_b(C++, 0);
+    constr_names.push_back("6.C - T5 cumstom conf "); 
 
     // 6. D
     lp.set_a(T3_0_c4tri, C, 1); lp.set_a(T4_1_c4tri, C, 1); lp.set_a(T5_0_c4tri, C, 1);
     lp.set_a(F1_AB, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("6.D - fans in custom confs "); 
 
     // 6.E
     lp.set_a(T3_0_c5qua, C, 1);
     lp.set_a(t0_c4_tri_c5_qua, C, -1); lp.set_a(t0_c5_qua_c5_qua, C, -1); lp.set_a(t0_c5_qua_large, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("6.E - trails in custom confs "); 
 
     // 7.A
     lp.set_a(t1_c3_tri_c5_qua, C, -1); lp.set_a(T3_1_c4tri, C, 1); 
     lp.set_a(t1_c3_tri_c5_qua, C, 1); lp.set_a(T3_1_c4tri, C, -1); 
     lp.set_b(C++, 0);
+    constr_names.push_back("7.A1 - what are even these "); 
 
     // 7.A
     lp.set_a(t2_c4_tri_c5_qua, C, -1); lp.set_a(T4_2_c4tri, C, 1); 
     lp.set_a(t2_c4_tri_c5_qua, C, 1); lp.set_a(T4_2_c4tri, C, -1); 
     lp.set_b(C++, 0);
+    constr_names.push_back("7.A2 - what are even these "); 
 
     // 7.A
     lp.set_a(t1_c5_pen_c5_qua, C, -1); lp.set_a(T5_1_c4tri, C, 1); 
     lp.set_a(t1_c5_pen_c5_qua, C, 1); lp.set_a(T5_1_c4tri, C, -1); 
     lp.set_b(C++, 0);
+    constr_names.push_back("7.A3 - what are even these "); 
     
 
     // ##############################
@@ -294,11 +336,13 @@ int main() {
     lp.set_a(t0_c5_pen_c5_qua, C, -1); 
     lp.set_a(SUM_STAR, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("8.B - nonstar bound"); 
 
     // 9.A
     lp.set_a(t0_c4_tri_c5_qua, C, 1);
     lp.set_a(E_1, C, -2);
     lp.set_b(C++, 0);
+    constr_names.push_back("9.A - Edges "); 
 
     // ##############################
     // 9.B-C
@@ -319,12 +363,15 @@ int main() {
     lp.set_a(c5_tri, C, -2);
     lp.set_b(C++, 0); 
 
+    constr_names.push_back("10.A - c5_tri incid "); 
+
     // 10.B
     lp.set_a(T3_0_c5qua, C, 1); lp.set_a(T4_1_c5qua, C, 1); lp.set_a(T5_0_c5qua, C, 1);
     lp.set_a(F1_AB, C, 1); lp.set_a(F2_AB, C, 1);
     lp.set_a(F1_BC, C, 1); lp.set_a(F1_BB, C, 2);
     lp.set_a(c5_qua, C, -2);
     lp.set_b(C++, 0); 
+    constr_names.push_back("10.B - c5_qua incid "); 
 
     // 10.C
     lp.set_a(T3_0_large, C, 1); lp.set_a(T4_1_large, C, 1); lp.set_a(T5_0_large, C, 1);
@@ -334,6 +381,7 @@ int main() {
     lp.set_a(F2_AC, C, 1);
     lp.set_a(LC_INCIDENCE, C, -1);                                      
     lp.set_b(C++, 0);
+    constr_names.push_back("10.C - LC incid "); 
 
 
 
@@ -361,18 +409,22 @@ int main() {
     lp.set_a(MC_5_qua, C, 1); lp.set_a(MC_7_pen, C, 1);
     lp.set_a(mysterycell, C, -1); 
     lp.set_b(C++, 0);
+    constr_names.push_back("A3.2 - mystery 1 "); 
 
     lp.set_a(mysterycell, C, 1);
     lp.set_a(MC_5_qua, C, -1); lp.set_a(MC_7_pen, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("A3.2 - mystery 1 "); 
 
     lp.set_a(MC_5_qua, C, 2);
     lp.set_a(t0_c3_tri_c5_qua, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("A3.2 - mystery 2 "); 
 
     lp.set_a(MC_7_pen, C, 1);
     lp.set_a(c7_pen, C, -1);
     lp.set_b(C++, 0);
+    constr_names.push_back("A3.2 - mystery 2 "); 
 
 
     // ##############################
@@ -383,27 +435,59 @@ int main() {
 
     // ##############################
     // A.6.1-4
-    // A.7.1-x
-    #include "include4/Q_Trail_containments.inc"
+    // A.7.1-x 
+     #include "include4/Q_Trail_containments.inc"
     // ##############################
-    
+
+    // ------------------------------------
+    // ----- Playground for testing -------
+    // ------------------------------------
+
+    // #include "_testing/turn_off_the_sky.inc"
+    // this one breaks the whole thing lol 
+
+    //lp.set_a(SUM_LARGE, C, 1);
+    //lp.set_b(C++, 0);
+    // this one does nothing. 
+
+    /*
+        lp.set_a(STAR_25, C, 1);
+        lp.set_a(STAR_83, C, 1);
+        lp.set_a(STAR_88, C, 1);
+        lp.set_a(STAR_94, C, 1);
+        lp.set_a(STAR_165, C, 1);
+        lp.set_a(STAR_23, C, 1);
+        lp.set_a(STAR_27, C, 1);
+        lp.set_a(STAR_8, C, 1);
+        lp.set_a(STAR_3, C, 1);
+        // --- this is the point where we get to with Q_trail_containmnets
+        lp.set_a(STAR_1, C, 1);
+        // --- and this is the point where it breaks again. 
+        lp.set_b(C++, 0);
+        constr_names.push_back("test "); 
+        
+        // breaks it 
+    */
     // ------------------------------------
     // ------ Set Target and solve  -------
     // ------------------------------------
-    bool edge = false;
+    bool edge = true;
     if(edge){
         lp.set_c(E , -1);
-        std::cout << " Optimizing for |E| \n";
+        std::cout << " ** Optimizing for |E| \n";
     }else{
         lp.set_c(X , -1);
-        std::cout << " Optimizing for |X| \n";
+        std::cout << " ** Optimizing for |X| \n";
     }
 
-    save_matrix_to_file(lp, "../verification/M.txt");
+    save_matrix_to_file(lp, "./verification/M.txt");
     std::cout << "Saved M \n";
 
-    save_var_to_file(var_names, "../verification/V.txt");
+    save_var_to_file(var_names, "./verification/V.txt");
     std::cout << "Saved Variable names \n";
+
+    save_var_to_file(constr_names, "./verification/C_names.txt");
+    std::cout << "Saved Constraint names \n";
 
     // solve the program, using ET as the exact type
     Solution s = CGAL::solve_quadratic_program(lp, ET());
@@ -429,11 +513,13 @@ int main() {
         }
         std::cout << " \n --------- \n # Non-zero variables: " << VAR - zeros << "\n";
         if(edge){
-            save_c_to_file(s, "../verification/ce.txt");
-            std::cout << "Saved ce \n";
+            save_c_to_file(s, "./verification/ce.txt");
+            save_primal_to_file(s, "./verification/pe.txt");
+            std::cout << "Saved ce and pe \n";
         }else{
-            save_c_to_file(s, "../verification/cx.txt");
-            std::cout << "Saved cx \n";
+            save_c_to_file(s, "./verification/cx.txt");
+            save_primal_to_file(s, "./verification/px.txt"); 
+            std::cout << "Saved cx and px \n";
         }
     }
     return 0;
