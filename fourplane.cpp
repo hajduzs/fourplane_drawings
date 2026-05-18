@@ -170,6 +170,10 @@ int main() {
     const int T5_1_c4tri = VAR++; var_names.push_back("T5_1_c4tri");
     // ##############################
 
+    /// NEW STUFF TO TEST and iron out the system
+    const int E_zero_large = VAR++; var_names.push_back("E_zero_large");
+
+
 
     // -----------------------------------
     // ------ Constraints --------
@@ -187,7 +191,9 @@ int main() {
     lp.set_a(t2_c3_tri_large, C, 1); lp.set_a(t2_c4_tri_large, C, 1); lp.set_a(t2_c5_qua_large, C, 1); lp.set_a(t2_c5_pen_large, C, 1); lp.set_a(t2_large_large, C, 2); 
     lp.set_a(t1_c3_tri_large, C, 1); lp.set_a(t1_c4_tri_large, C, 1); lp.set_a(t1_c5_qua_large, C, 1); lp.set_a(t1_c5_pen_large, C, 1); lp.set_a(t0_large_large, C, 2); 
     lp.set_a(t0_c3_tri_large, C, 1); lp.set_a(t0_c4_tri_large, C, 1); lp.set_a(t0_c5_qua_large, C, 1); lp.set_a(t0_c5_pen_large, C, 1); lp.set_a(t1_large_large, C, 2); 
-    lp.set_a(c6_qua, C, 3); lp.set_a(c7_pen, C, 3); 
+    //lp.set_a(c6_qua, C, 3); lp.set_a(c7_pen, C, 3); 
+    lp.set_a(c6_qua, C, 2); lp.set_a(c7_pen, C, 2); 
+    lp.set_a(E_zero_large, C, 1);
     lp.set_a(LC_INCIDENCE, C, 1);
     lp.set_a(SUM_LARGE, C, -1);
     lp.set_b(C++, 0);
@@ -227,8 +233,14 @@ int main() {
     constr_names.push_back("2.C = EX X");
 
     // 3.A -- uncrossed edges
-    lp.set_a(c5_tri, C, 1); lp.set_a(c6_qua, C, 1); lp.set_a(c7_pen, C, 1); 
+    //lp.set_a(c5_tri, C, 1); lp.set_a(c6_qua, C, 1); lp.set_a(c7_pen, C, 1); 
+    lp.set_a(c5_tri, C, 1); lp.set_a(E_zero_large, C, 1);  
     lp.set_a(E_0, C, -2);
+    lp.set_b(C++, 0);
+    constr_names.push_back("3.A cell->E_0");
+
+    lp.set_a(c5_tri, C, -1); lp.set_a(E_zero_large, C, -1);  
+    lp.set_a(E_0, C, 2);
     lp.set_b(C++, 0);
     constr_names.push_back("3.A cell->E_0");
     
@@ -451,27 +463,36 @@ int main() {
     // this one does nothing. 
 
     /*
-        lp.set_a(STAR_25, C, 1);
-        lp.set_a(STAR_83, C, 1);
-        lp.set_a(STAR_88, C, 1);
-        lp.set_a(STAR_94, C, 1);
-        lp.set_a(STAR_165, C, 1);
-        lp.set_a(STAR_23, C, 1);
-        lp.set_a(STAR_27, C, 1);
-        lp.set_a(STAR_8, C, 1);
-        lp.set_a(STAR_3, C, 1);
-        // --- this is the point where we get to with Q_trail_containmnets
-        lp.set_a(STAR_1, C, 1);
-        // --- and this is the point where it breaks again. 
-        lp.set_b(C++, 0);
-        constr_names.push_back("test "); 
-        
-        // breaks it 
+    lp.set_a(STAR_83, C, 1);
+    lp.set_a(STAR_88, C, 1);
+    lp.set_a(STAR_94, C, 1);
+    lp.set_a(STAR_165, C, 1);
+    lp.set_a(STAR_23, C, 1);
+    lp.set_a(STAR_27, C, 1);
+    lp.set_a(STAR_8, C, 1);
+    lp.set_a(STAR_3, C, 1);
+    // --- this is the point where we get to with Q_trail_containmnets
+    lp.set_a(STAR_1, C, 1);
+    lp.set_a(STAR_17, C, 1);
+    lp.set_a(STAR_25, C, 1);
+    // --- and this is the point where it breaks again. (no longer! it broke when the E_0 safeguard was not set up)
+    lp.set_b(C++, 0);
+    constr_names.push_back("test "); 
+    
     */
+        // breaks it 
+
+    // lets try to just forbit STAR_! under the "simple" assumptions: 
+
+    lp.set_a(STAR_1, C, 1);
+    lp.set_a(c7_pen, C, 5);
+    lp.set_b(C++, 0);
+    constr_names.push_back("test_Star1_special_simple"); 
+
     // ------------------------------------
     // ------ Set Target and solve  -------
     // ------------------------------------
-    bool edge = true;
+    bool edge = false;
     if(edge){
         lp.set_c(E , -1);
         std::cout << " ** Optimizing for |E| \n";
