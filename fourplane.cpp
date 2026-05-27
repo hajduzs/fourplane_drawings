@@ -180,11 +180,12 @@ int main() {
     // -----------------------------------
 
     // 1.A -- density formula with t = 6
-    lp.set_a(SUM_LARGE, C, 1); lp.set_a(E, C, 4); lp.set_a(X, C, 4); 
-    lp.set_a(c3_tri, C, -9); lp.set_a(c4_tri, C, -4); lp.set_a(c4_qua, C, -4);
-    lp.set_a(c5_pen, C, 1); lp.set_a(c5_qua, C, 1); lp.set_a(c5_tri, C, 1);
-    lp.set_b(C++, 24);
-    constr_names.push_back("1.A / Density Formula");
+    //lp.set_a(SUM_LARGE, C, 1); lp.set_a(E, C, 4); lp.set_a(X, C, 4); 
+    //lp.set_a(c3_tri, C, -9); lp.set_a(c4_tri, C, -4); lp.set_a(c4_qua, C, -4);
+    //lp.set_a(c5_pen, C, 1); lp.set_a(c5_qua, C, 1); lp.set_a(c5_tri, C, 1);
+    //lp.set_b(C++, 24);
+    #include "include4/df.inc"
+    //constr_names.push_back("1.A / Density Formula");
 
     // 1.B -- lower bounding the number of large cells
     lp.set_a(t3_c4_tri_large, C, 1); lp.set_a(t3_large_large, C, 2); 
@@ -485,9 +486,21 @@ int main() {
     // lets try to just forbit STAR_! under the "simple" assumptions: 
 
     lp.set_a(STAR_1, C, 1);
-    lp.set_a(c7_pen, C, 5);
+    lp.set_a(c7_pen, C, -5);
     lp.set_b(C++, 0);
     constr_names.push_back("test_Star1_special_simple"); 
+
+    lp.set_a(X, C, 4);
+    lp.set_a(c3_tri, C, -3);
+    lp.set_a(c4_qua, C, -4);
+    lp.set_a(c4_tri, C, -2);
+    lp.set_a(c5_tri, C, -1);
+    lp.set_a(c5_qua, C, -3);
+    lp.set_a(c5_pen, C, -5);
+    lp.set_a(SUM_LARGE, C, -1);
+    lp.set_b(C++, 0);
+    constr_names.push_back("test_X_naive_bound"); 
+
 
     // ------------------------------------
     // ------ Set Target and solve  -------

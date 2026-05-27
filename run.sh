@@ -7,6 +7,9 @@ python stars.py
 python arms_fans.py
 python Q_trails.py
 cd ..
+cd utilities
+python density.py
+cd ..
 echo "Compiling.."
 time g++ fourplane.cpp -o fourplane -lgmp -lmpfr 
 echo "Running.."

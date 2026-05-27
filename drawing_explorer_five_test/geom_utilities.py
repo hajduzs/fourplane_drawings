@@ -1,4 +1,4 @@
-k_for_k_planar = 4
+k_for_k_planar = 5
 
 class CrossingData:
     """Local crossing number, type, and boundary for star-trails."""
@@ -7,14 +7,17 @@ class CrossingData:
     types = [
         "t0_c3_tri_c5_pen",     # 0
         "t1_c3_tri_c5_pen",     # 1
-        "t0_c4_tri_c5_pen",     # 2
-        "t1_c4_tri_c5_pen",     # 3
-        "t2_c4_tri_c5_pen",     # 4
-        "t0_c5_pen_c5_pen",     # 5
-        "t1_c5_pen_c5_pen",     # 6
+        "t2_c3_tri_c5_pen",     # NEW 2
+        "t0_c4_tri_c5_pen",     # 2 3
+        "t1_c4_tri_c5_pen",     # 3 4
+        "t2_c4_tri_c5_pen",     # 4 5
+        "t3_c4_tri_c5_pen",     # NEW 6
+        "t0_c5_pen_c5_pen",     # 5 7
+        "t1_c5_pen_c5_pen",     # 6 8
+        "t2_c5_pen_c5_pen",     # NEW 9
     ]
-    crossings = [1, 2, 0, 1, 2, 1, 2] # Additional crossings provided by trail i, not counting the crossing on the boundary of a star S
-    segments = [0, 1, 0, 1, 2, 1, 2]  # "unfinshed" edges crossing the trails, which provide the interior inner edge-segments, 
+    crossings = [1, 2, 3, 0, 1, 2, 3, 1, 2, 3] # Additional crossings provided by trail i, not counting the crossing on the boundary of a star S
+    segments = [0, 1, 2, 0, 1, 2, 3, 1, 2, 3]  # "unfinshed" edges crossing the trails, which provide the interior inner edge-segments, 
                                       # or the inner segments on the opposing boundaries og other pentagons
 
     # The "combinatorial" patterns on the bounding edges of the trails, starting from the end of the trail, going towards the core 
@@ -22,11 +25,14 @@ class CrossingData:
     boundaries = [  
         ['s', 's'],                 # e.g. We start with the other segment, hosted by the other edge bounding, 
         ['s', 's', 'he', 's'],      # We record "independent" edges "sticking out" ot the trail as he (halfedge)
+        ['s', 's', 's', 's', 'he', 's'],
         ['v', 's'],                 # v menas a vertex
         ['v', 's', 'he', 's'],
         ['v', 's', 'he', 's', 'he', 's'],
+        ['v', 's', 'he', 's', 'he', 's', 'he', 's'],
         ['s', 'hei', 's'],          # hei means the edges with only one discovered crossing at the other pentagons
         ['s', 'hei', 's', 'he', 's'],
+        ['s', 'hei', 's', 'he', 's', 'he', 's'],
     ]                               # We will later also add "c" to denote crossing points on the core boundary
 
     @classmethod
@@ -108,7 +114,7 @@ class Star:
             if self.E[i].CR() == k_for_k_planar:
                 self.E[i].sureCrossed = True
             # Otherwise see if we end in vertices (c4_tri cells)
-            if self.T[(i - 1) % 5].t in [2, 3, 4] and self.T[(i + 1) % 5].t in [2, 3, 4]:
+            if self.T[(i - 1) % 5].t in [5, 3, 4, 6] and self.T[(i + 1) % 5].t in [5, 3, 4, 6]:
                 self.E[i].sureCrossed = True
 
         # Record corner boundaries for later exploitation - add vertices if discovered
@@ -132,6 +138,10 @@ class Star:
         return [e.CR() for e in self.E if e.sureCrossed].count(2)
 
     def get_e3(self):
+        """Get the number of edges crossed 3x on the boundary of the core"""
+        return [e.CR() for e in self.E if e.sureCrossed].count(3)
+    
+    def get_e4(self):
         """Get the number of edges crossed 3x on the boundary of the core"""
         return [e.CR() for e in self.E if e.sureCrossed].count(3)
 
