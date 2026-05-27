@@ -1,3 +1,5 @@
+echo "entering python virtual env.."
+source ../.venv/bin/activate
 echo "Running scripts.."
 cd drawing_explorer_five_test
 python3 ./trails.py
@@ -7,3 +9,4 @@ echo "Compiling.."
 time g++ fiveplane.cpp -o fiveplane -lgmp -lmpfr 
 echo "Running.."
 time ./fiveplane 
+ 

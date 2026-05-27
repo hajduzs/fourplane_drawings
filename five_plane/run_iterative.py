@@ -12,23 +12,6 @@ def read_verification_file(path):
         except:
             return None
 
-def run_solver():
-    print("Running fourplane solver...")
-    # Use run.sh logic if compilation is needed, but here we assume 'fourplane' is ready
-    result = subprocess.run(["./fourplane"], capture_output=True, text=True)
-    if result.returncode != 0:
-        print("Solver failed!")
-        print(result.stderr)
-        return None
-    
-    # Extract objective value from output
-    obj_val = None
-    for line in result.stdout.split('\n'):
-        if "Value:" in line:
-            obj_val = line.split("Value:")[1].strip()
-            break
-    return obj_val
-
 def get_unused_rules(target='X'):
     names = read_verification_file("verification/C_names.txt")
     dual = read_verification_file(f"verification/c{target.lower()}.txt")
@@ -60,14 +43,29 @@ def get_unused_rules(target='X'):
     return unused
 
 def main():
+    if len(sys.argv) < 2:
+        print("Usage: python run_iterative.py <project_dir> [target X|E]")
+        sys.exit(1)
+        
+    project_dir = sys.argv[1]
     target = 'X'
-    if len(sys.argv) > 1:
-        target = sys.argv[1].upper()
+    if len(sys.argv) > 2:
+        target = sys.argv[2].upper()
+
+    # Change to project directory
+    if not os.path.exists(project_dir):
+        print(f"Error: Project directory {project_dir} not found.")
+        sys.exit(1)
+    
+    os.chdir(project_dir)
+    
+    # Adjust binary name
+    binary = "./fourplane" if "four" in project_dir else "./fiveplane"
 
     disabled_path = "verification/disabled_constraints.txt"
     log_path = "verification/iteration_log.csv"
     
-    # Load existing disabled constraints to avoid duplicates and allow resuming
+    # Load existing disabled constraints
     disabled_set = set()
     if os.path.exists(disabled_path):
         with open(disabled_path, "r") as f:
@@ -77,6 +75,7 @@ def main():
                     disabled_set.add(name)
     else:
         # Create the file if it doesn't exist
+        os.makedirs(os.path.dirname(disabled_path), exist_ok=True)
         open(disabled_path, 'a').close()
 
     # Append to log instead of overwriting to keep history
@@ -89,14 +88,28 @@ def main():
         iteration += 1
         print(f"\n--- Iteration {iteration} ---")
         
-        obj_val = run_solver()
+        print(f"Running {binary} solver...")
+        result = subprocess.run([binary], capture_output=True, text=True)
+        if result.returncode != 0:
+            print("Solver failed!")
+            print(result.stderr)
+            break
+            
+        # Extract objective value from output
+        obj_val = None
+        for line in result.stdout.split('\n'):
+            if "Value:" in line:
+                obj_val = line.split("Value:")[1].strip()
+                break
+        
         if obj_val is None:
+            print("Could not find objective value in solver output.")
             break
             
         names = read_verification_file("verification/C_names.txt")
         unused_rules = get_unused_rules(target)
         
-        # Filter out rules that are already disabled (shouldn't be in names anyway, but for safety)
+        # Filter out rules that are already disabled
         unused_rules = [r for r in unused_rules if r not in disabled_set and 
                         (r + "_LEQ") not in disabled_set and 
                         (r + "_GEQ") not in disabled_set]

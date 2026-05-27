@@ -2,7 +2,7 @@ import re
 import os
 import sys
 
-# Macros to be added to fourplane.cpp
+# Macros to be added to cpp files
 MACROS = """
 #include <set>
 #include <fstream>
@@ -47,13 +47,6 @@ std::string ConstraintManager::current_name;
 """
 
 def refactor_content(content):
-    # Pattern to match:
-    # 1. A block of lines starting with lp.set_a or // (comments)
-    # 2. followed by lp.set_b(C++, <val>);
-    # 3. followed by constr_names.push_back("<name>");
-    
-    # We use [^\n]* to match the rest of the line and \n to match the newline.
-    # This ensures we capture the entire line even if it has multiple lp.set_a calls.
     pattern = re.compile(r'((?:^\s*(?:lp\.set_a|//)[^\n]*\n)+)\s*lp\.set_b\(C\+\+,\s*([^)]+)\);\s*constr_names\.push_back\("([^"]+)"\);', re.MULTILINE)
     
     def replace_func(match):
@@ -61,7 +54,6 @@ def refactor_content(content):
         b_val = match.group(2).strip()
         name = match.group(3).strip()
         
-        # Split into lines, strip them, and re-indent
         lines = block.split("\n")
         indented_lines = []
         for line in lines:
@@ -81,13 +73,10 @@ def process_file(file_path):
     
     new_content = refactor_content(content)
     
-    # Special case for fourplane.cpp: add macros and init call
-    if file_path.endswith('fourplane.cpp'):
-        # Insert macros before main
+    if file_path.endswith('.cpp'):
         if 'struct ConstraintManager' not in new_content:
             new_content = new_content.replace('int main()', MACROS + '\nint main()')
         
-        # Insert init call after variable declarations
         init_call = '    ConstraintManager::init(lp, C, constr_names);'
         if init_call not in new_content:
             new_content = new_content.replace('Program lp (CGAL::SMALLER, true, 0, false, 0);', 
@@ -98,16 +87,21 @@ def process_file(file_path):
     print(f"Created {file_path}.refactored")
 
 if __name__ == "__main__":
-    # List of files to process
-    files = ['fourplane.cpp']
-    for root, dirs, f_names in os.walk('include4'):
-        for f in f_names:
-            if f.endswith('.inc'):
-                files.append(os.path.join(root, f))
+    # Detect local files
+    files = []
+    for f in os.listdir('..'):
+        if f.endswith('.cpp'):
+            files.append(os.path.join('..', f))
+    
+    # include dirs
+    for d in os.listdir('..'):
+        if d.startswith('include') and os.path.isdir(os.path.join('..', d)):
+            for root, dirs, f_names in os.walk(os.path.join('..', d)):
+                for f in f_names:
+                    if f.endswith('.inc'):
+                        files.append(os.path.join(root, f))
     
     for f in files:
-        if os.path.exists(f):
-            process_file(f)
+        process_file(f)
     
     print("\nRefactoring complete. Review the .refactored files.")
-    print("If they look good, you can overwrite the originals.")

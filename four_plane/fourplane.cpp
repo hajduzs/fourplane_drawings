@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cassert>
 #include <vector>
+#include <set>
+#include <fstream>
+#include <string>
  
 #include <CGAL/QP_models.h>
 #include <CGAL/QP_functions.h>
@@ -87,6 +90,45 @@ void save_primal_to_file(const Solution& s, const std::string& filename) {
     out << "]\n";
 }
  
+
+
+struct ConstraintManager {
+    static Program* lp_ptr;
+    static int* C_ptr;
+    static std::vector<std::string>* names_ptr;
+    static std::set<std::string> disabled;
+    static std::string current_name;
+
+    static void init(Program& lp, int& C, std::vector<std::string>& names) {
+        lp_ptr = &lp; C_ptr = &C; names_ptr = &names;
+        std::ifstream in("verification/disabled_constraints.txt");
+        std::string line;
+        while (std::getline(in, line)) {
+            if (!line.empty()) disabled.insert(line);
+        }
+    }
+
+    static bool start(const std::string& name) {
+        if (disabled.count(name)) return false;
+        current_name = name;
+        return true;
+    }
+
+    static void finish(int b) {
+        lp_ptr->set_b((*C_ptr)++, b);
+        names_ptr->push_back(current_name);
+    }
+};
+
+Program* ConstraintManager::lp_ptr = nullptr;
+int* ConstraintManager::C_ptr = nullptr;
+std::vector<std::string>* ConstraintManager::names_ptr = nullptr;
+std::set<std::string> ConstraintManager::disabled;
+std::string ConstraintManager::current_name;
+
+#define START_C(name) if (ConstraintManager::start(name)) {
+#define END_C(b) ConstraintManager::finish(b); }
+
 int main() {
   
     Program lp (CGAL::SMALLER, true, 0, false, 0);
@@ -94,6 +136,7 @@ int main() {
     int VAR = 0; std::vector<std::string> var_names;
     // inequality counter and names for easier debugging
     int C = 0;   std::vector<std::string> constr_names;
+    ConstraintManager::init(lp, C, constr_names);
 
     // -------------------------
     // ------ Variables --------
@@ -185,80 +228,70 @@ int main() {
     //lp.set_a(c5_pen, C, 1); lp.set_a(c5_qua, C, 1); lp.set_a(c5_tri, C, 1);
     //lp.set_b(C++, 24);
     #include "include4/df.inc"
-    //constr_names.push_back("1.A / Density Formula");
 
+START_C("1.B / Large_cell_LB")
+    //constr_names.push_back("1.A / Density Formula");
     // 1.B -- lower bounding the number of large cells
-    lp.set_a(t3_c4_tri_large, C, 1); lp.set_a(t3_large_large, C, 2); 
-    lp.set_a(t2_c3_tri_large, C, 1); lp.set_a(t2_c4_tri_large, C, 1); lp.set_a(t2_c5_qua_large, C, 1); lp.set_a(t2_c5_pen_large, C, 1); lp.set_a(t2_large_large, C, 2); 
-    lp.set_a(t1_c3_tri_large, C, 1); lp.set_a(t1_c4_tri_large, C, 1); lp.set_a(t1_c5_qua_large, C, 1); lp.set_a(t1_c5_pen_large, C, 1); lp.set_a(t0_large_large, C, 2); 
-    lp.set_a(t0_c3_tri_large, C, 1); lp.set_a(t0_c4_tri_large, C, 1); lp.set_a(t0_c5_qua_large, C, 1); lp.set_a(t0_c5_pen_large, C, 1); lp.set_a(t1_large_large, C, 2); 
-    lp.set_a(c6_qua, C, 2); lp.set_a(c7_pen, C, 2); 
+    lp.set_a(t3_c4_tri_large, C, 1); lp.set_a(t3_large_large, C, 2);
+    lp.set_a(t2_c3_tri_large, C, 1); lp.set_a(t2_c4_tri_large, C, 1); lp.set_a(t2_c5_qua_large, C, 1); lp.set_a(t2_c5_pen_large, C, 1); lp.set_a(t2_large_large, C, 2);
+    lp.set_a(t1_c3_tri_large, C, 1); lp.set_a(t1_c4_tri_large, C, 1); lp.set_a(t1_c5_qua_large, C, 1); lp.set_a(t1_c5_pen_large, C, 1); lp.set_a(t0_large_large, C, 2);
+    lp.set_a(t0_c3_tri_large, C, 1); lp.set_a(t0_c4_tri_large, C, 1); lp.set_a(t0_c5_qua_large, C, 1); lp.set_a(t0_c5_pen_large, C, 1); lp.set_a(t1_large_large, C, 2);
+    lp.set_a(c6_qua, C, 2); lp.set_a(c7_pen, C, 2);
     lp.set_a(E_zero_large, C, 1);
     lp.set_a(LC_INCIDENCE, C, 1);
     lp.set_a(SUM_LARGE, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("1.B / Large_cell_LB");
-
-    // 2.A -- counting edges, crossed and uncrossed 
-    lp.set_a(E_0, C, 1); lp.set_a(E_x, C, 1); 
+    END_C(0)
+START_C("2.A = EO EX _LEQ")
+    // 2.A -- counting edges, crossed and uncrossed
+    lp.set_a(E_0, C, 1); lp.set_a(E_x, C, 1);
     lp.set_a(E, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("2.A = EO EX");
-    
+    END_C(0)
+START_C("2.A = EO EX _GEQ")
     lp.set_a(E, C, 1);
-    lp.set_a(E_0, C, -1); lp.set_a(E_x, C, -1); 
-    lp.set_b(C++, 0);
-    constr_names.push_back("2.A = EO EX");
-
+    lp.set_a(E_0, C, -1); lp.set_a(E_x, C, -1);
+    END_C(0)
+START_C("2.B = EX E1->4 _LEQ")
     // 2.B -- counting crossed edges
     lp.set_a(E_1, C, 1); lp.set_a(E_2, C, 1); lp.set_a(E_3, C, 1); lp.set_a(E_4, C, 1);
     lp.set_a(E_x, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("2.B = EX E1->4");
-
+    END_C(0)
+START_C("2.B = EX E1->4 _GEQ")
     lp.set_a(E_x, C, 1);
-    lp.set_a(E_1, C, -1); lp.set_a(E_2, C, -1); lp.set_a(E_3, C, -1); lp.set_a(E_4, C, -1); 
-    lp.set_b(C++, 0);
-    constr_names.push_back("2.B = EX E1->4");
-
+    lp.set_a(E_1, C, -1); lp.set_a(E_2, C, -1); lp.set_a(E_3, C, -1); lp.set_a(E_4, C, -1);
+    END_C(0)
+START_C("2.C = EX X _LEQ")
     // 2.C  -- counting crossings
-    lp.set_a(E_1, C, 1); lp.set_a(E_2, C, 2); lp.set_a(E_3, C, 3); lp.set_a(E_4, C, 4); 
+    lp.set_a(E_1, C, 1); lp.set_a(E_2, C, 2); lp.set_a(E_3, C, 3); lp.set_a(E_4, C, 4);
     lp.set_a(X, C, -2);
-    lp.set_b(C++, 0);
-    constr_names.push_back("2.C = EX X");
-    
+    END_C(0)
+START_C("2.C = EX X _GEQ")
     lp.set_a(X, C, 2);
-    lp.set_a(E_1, C, -1); lp.set_a(E_2, C, -2); lp.set_a(E_3, C, -3); lp.set_a(E_4, C, -4); 
-    lp.set_b(C++, 0);
-    constr_names.push_back("2.C = EX X");
-
+    lp.set_a(E_1, C, -1); lp.set_a(E_2, C, -2); lp.set_a(E_3, C, -3); lp.set_a(E_4, C, -4);
+    END_C(0)
+START_C("3.A cell->E_0 _LEQ")
     // 3.A -- uncrossed edges
-    //lp.set_a(c5_tri, C, 1); lp.set_a(c6_qua, C, 1); lp.set_a(c7_pen, C, 1); 
-    lp.set_a(c5_tri, C, 1); lp.set_a(E_zero_large, C, 1);  
+    //lp.set_a(c5_tri, C, 1); lp.set_a(c6_qua, C, 1); lp.set_a(c7_pen, C, 1);
+    lp.set_a(c5_tri, C, 1); lp.set_a(E_zero_large, C, 1);
     lp.set_a(E_0, C, -2);
-    lp.set_b(C++, 0);
-    constr_names.push_back("3.A cell->E_0");
-
-    lp.set_a(c5_tri, C, -1); lp.set_a(E_zero_large, C, -1);  
+    END_C(0)
+START_C("3.A cell->E_0 _GEQ")
+    lp.set_a(c5_tri, C, -1); lp.set_a(E_zero_large, C, -1);
     lp.set_a(E_0, C, 2);
-    lp.set_b(C++, 0);
-    constr_names.push_back("3.A cell->E_0");
-    
+    END_C(0)
+START_C("3.B cell->E_outer")
     // 3.B  -- outer edge segments
     lp.set_a(c4_tri, C, 2); lp.set_a(c5_qua, C, 2); lp.set_a(c5_tri, C, 2); lp.set_a(c6_qua, C, 2); lp.set_a(c7_pen, C, 2);
-    lp.set_a(E_x, C, -4); 
-    lp.set_b(C++, 0);
-    constr_names.push_back("3.B cell->E_outer");
-
-    // 3.C -- inner edge segments 
+    lp.set_a(E_x, C, -4);
+    END_C(0)
+START_C("3.C cell->E_inner")
+    // 3.C -- inner edge segments
     lp.set_a(c3_tri, C, 3); lp.set_a(c4_qua, C, 4); lp.set_a(c4_tri, C ,1); lp.set_a(c5_qua, C, 2); lp.set_a(c5_pen, C, 5); lp.set_a(c6_qua, C, 1); lp.set_a(c7_pen, C, 2);
-    lp.set_a(t3_c4_tri_large, C, 1); lp.set_a(t3_large_large, C, 2); 
-    lp.set_a(t2_c3_tri_large, C, 1); lp.set_a(t2_c4_tri_large, C, 1); lp.set_a(t2_c5_qua_large, C, 1); lp.set_a(t2_c5_pen_large, C, 1); lp.set_a(t2_large_large, C, 2); 
-    lp.set_a(t1_c3_tri_large, C, 1); lp.set_a(t1_c4_tri_large, C, 1); lp.set_a(t1_c5_qua_large, C, 1); lp.set_a(t1_c5_pen_large, C, 1); lp.set_a(t0_large_large, C, 2); 
-    lp.set_a(t0_c3_tri_large, C, 1); lp.set_a(t0_c4_tri_large, C, 1); lp.set_a(t0_c5_qua_large, C, 1); lp.set_a(t0_c5_pen_large, C, 1); lp.set_a(t1_large_large, C, 2); 
+    lp.set_a(t3_c4_tri_large, C, 1); lp.set_a(t3_large_large, C, 2);
+    lp.set_a(t2_c3_tri_large, C, 1); lp.set_a(t2_c4_tri_large, C, 1); lp.set_a(t2_c5_qua_large, C, 1); lp.set_a(t2_c5_pen_large, C, 1); lp.set_a(t2_large_large, C, 2);
+    lp.set_a(t1_c3_tri_large, C, 1); lp.set_a(t1_c4_tri_large, C, 1); lp.set_a(t1_c5_qua_large, C, 1); lp.set_a(t1_c5_pen_large, C, 1); lp.set_a(t0_large_large, C, 2);
+    lp.set_a(t0_c3_tri_large, C, 1); lp.set_a(t0_c4_tri_large, C, 1); lp.set_a(t0_c5_qua_large, C, 1); lp.set_a(t0_c5_pen_large, C, 1); lp.set_a(t1_large_large, C, 2);
     lp.set_a(E_2, C, -2); lp.set_a(E_3, C, -4); lp.set_a(E_4, C, -6);
-    lp.set_b(C++, 0);
-   constr_names.push_back("3.C cell->E_inner"); 
+    END_C(0) 
 
     // ##############################
     // 4.A-E  -- Trail cell counting
@@ -268,132 +301,112 @@ int main() {
     // ##############################
     // 5.A  -- Fan cell counting
     #include "include4/fan_c4_cells.inc"
+START_C("6.A - T3 cumstom conf _LEQ")
     // ##############################
-
-    // 6.A 
+    // 6.A
     lp.set_a(T3_0_empty, C, 1); lp.set_a(T3_0_c4tri, C , 1); lp.set_a(T3_0_c5qua, C , 1); lp.set_a(T3_0_large, C , 1);
     lp.set_a(t0_c3_tri_c5_qua, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("6.A - T3 cumstom conf "); 
-
+    END_C(0) 
+START_C("6.A - T3 cumstom conf _GEQ")
     lp.set_a(t0_c3_tri_c5_qua, C, 1);
     lp.set_a(T3_0_empty, C ,-1); lp.set_a(T3_0_c4tri, C ,-1); lp.set_a(T3_0_c5qua, C ,-1); lp.set_a(T3_0_large, C ,-1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("6.A - T3 cumstom conf "); 
-
+    END_C(0) 
+START_C("6.b - T4 cumstom conf _LEQ")
     // 6.B
     lp.set_a(T4_1_empty, C, 1); lp.set_a(T4_1_c4tri, C , 1); lp.set_a(T4_1_c5qua, C , 1); lp.set_a(T4_1_large, C , 1);
     lp.set_a(t1_c4_tri_c5_qua, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("6.b - T4 cumstom conf "); 
-
+    END_C(0) 
+START_C("6.b - T4 cumstom conf _GEQ")
     lp.set_a(t1_c4_tri_c5_qua, C, 1);
     lp.set_a(T4_1_empty, C ,-1); lp.set_a(T4_1_c4tri, C ,-1); lp.set_a(T4_1_c5qua, C ,-1); lp.set_a(T4_1_large, C ,-1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("6.b - T4 cumstom conf "); 
-
+    END_C(0) 
+START_C("6.C - T5 cumstom conf _LEQ")
     // 6.C
     lp.set_a(T5_0_empty, C, 1); lp.set_a(T5_0_c4tri, C , 1); lp.set_a(T5_0_c5qua, C , 1); lp.set_a(T5_0_large, C , 1);
     lp.set_a(t0_c5_pen_c5_qua, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("6.C - T5 cumstom conf "); 
-
+    END_C(0) 
+START_C("6.C - T5 cumstom conf _GEQ")
     lp.set_a(t0_c5_pen_c5_qua, C, 1);
     lp.set_a(T5_0_empty, C ,-1); lp.set_a(T5_0_c4tri, C ,-1); lp.set_a(T5_0_c5qua, C ,-1); lp.set_a(T5_0_large, C ,-1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("6.C - T5 cumstom conf "); 
-
+    END_C(0) 
+START_C("6.D - fans in custom confs")
     // 6. D
     lp.set_a(T3_0_c4tri, C, 1); lp.set_a(T4_1_c4tri, C, 1); lp.set_a(T5_0_c4tri, C, 1);
     lp.set_a(F1_AB, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("6.D - fans in custom confs "); 
-
+    END_C(0) 
+START_C("6.E - trails in custom confs")
     // 6.E
     lp.set_a(T3_0_c5qua, C, 1);
     lp.set_a(t0_c4_tri_c5_qua, C, -1); lp.set_a(t0_c5_qua_c5_qua, C, -1); lp.set_a(t0_c5_qua_large, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("6.E - trails in custom confs "); 
-
+    END_C(0) 
+START_C("7.A1 - t3 custom - 5tri connection")
     // 7.A
-    lp.set_a(t1_c3_tri_c5_qua, C, -1); lp.set_a(T3_1_c4tri, C, 1); 
-    lp.set_a(t1_c3_tri_c5_qua, C, 1); lp.set_a(T3_1_c4tri, C, -1); 
-    lp.set_b(C++, 0);
-    constr_names.push_back("7.A1 - what are even these "); 
-
+    lp.set_a(t1_c3_tri_c5_qua, C, -1); lp.set_a(T3_1_c4tri, C, 1);
+    lp.set_a(t1_c3_tri_c5_qua, C, 1); lp.set_a(T3_1_c4tri, C, -1);
+    END_C(0) 
+START_C("7.A2 - t4 custom - 5tri connection")
     // 7.A
-    lp.set_a(t2_c4_tri_c5_qua, C, -1); lp.set_a(T4_2_c4tri, C, 1); 
-    lp.set_a(t2_c4_tri_c5_qua, C, 1); lp.set_a(T4_2_c4tri, C, -1); 
-    lp.set_b(C++, 0);
-    constr_names.push_back("7.A2 - what are even these "); 
-
+    lp.set_a(t2_c4_tri_c5_qua, C, -1); lp.set_a(T4_2_c4tri, C, 1);
+    lp.set_a(t2_c4_tri_c5_qua, C, 1); lp.set_a(T4_2_c4tri, C, -1);
+    END_C(0) 
+START_C("7.A3 - t5 custom - 5tri connection")
     // 7.A
-    lp.set_a(t1_c5_pen_c5_qua, C, -1); lp.set_a(T5_1_c4tri, C, 1); 
-    lp.set_a(t1_c5_pen_c5_qua, C, 1); lp.set_a(T5_1_c4tri, C, -1); 
-    lp.set_b(C++, 0);
-    constr_names.push_back("7.A3 - what are even these "); 
+    lp.set_a(t1_c5_pen_c5_qua, C, -1); lp.set_a(T5_1_c4tri, C, 1);
+    lp.set_a(t1_c5_pen_c5_qua, C, 1); lp.set_a(T5_1_c4tri, C, -1);
+    END_C(0) 
     
 
     // ##############################
     // 8.A
     #include "include4/star_sum_equality.inc"       
+START_C("8.B - nonstar bound")
     // ##############################
-
-    // 8.B 
+    // 8.B
     lp.set_a(c5_pen, C, 1);
-    lp.set_a(t2_c5_pen_large, C, -1); 
+    lp.set_a(t2_c5_pen_large, C, -1);
     lp.set_a(t1_c5_pen_large, C, -1);
-    lp.set_a(t1_c5_pen_c5_qua, C, -1); 
-    lp.set_a(t0_c5_pen_large, C, -1);   
-    lp.set_a(t0_c5_pen_c5_qua, C, -1); 
+    lp.set_a(t1_c5_pen_c5_qua, C, -1);
+    lp.set_a(t0_c5_pen_large, C, -1);
+    lp.set_a(t0_c5_pen_c5_qua, C, -1);
     lp.set_a(SUM_STAR, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("8.B - nonstar bound"); 
-
+    END_C(0) 
+START_C("9.A - Edges")
     // 9.A
     lp.set_a(t0_c4_tri_c5_qua, C, 1);
     lp.set_a(E_1, C, -2);
-    lp.set_b(C++, 0);
-    constr_names.push_back("9.A - Edges "); 
+    END_C(0) 
 
     // ##############################
     // 9.B-C
     #include "include4/edge_sums.inc"
+START_C("10.A - c5_tri incid")
     // ##############################
-
-
     // 10.A
-    lp.set_a(T3_1_c4tri, C, 1); 
-    lp.set_a(T4_2_c4tri, C, 1); 
+    lp.set_a(T3_1_c4tri, C, 1);
+    lp.set_a(T4_2_c4tri, C, 1);
     lp.set_a(T5_1_c4tri, C, 1);
-    
     lp.set_a(T3_0_empty, C, 1); lp.set_a(T4_1_empty, C, 1); lp.set_a(T5_0_empty, C, 1);
-    
     lp.set_a(F1_AA, C, 2); lp.set_a(F2_AA, C, 2); lp.set_a(F3_AA, C, 2);
     lp.set_a(F2_AB, C, 1); lp.set_a(F2_AC, C, 1);
     lp.set_a(F1_AB, C, 1); lp.set_a(F1_AC, C, 1);
     lp.set_a(c5_tri, C, -2);
-    lp.set_b(C++, 0); 
-
-    constr_names.push_back("10.A - c5_tri incid "); 
-
+    END_C(0) 
+START_C("10.B - c5_qua incid")
     // 10.B
     lp.set_a(T3_0_c5qua, C, 1); lp.set_a(T4_1_c5qua, C, 1); lp.set_a(T5_0_c5qua, C, 1);
     lp.set_a(F1_AB, C, 1); lp.set_a(F2_AB, C, 1);
     lp.set_a(F1_BC, C, 1); lp.set_a(F1_BB, C, 2);
     lp.set_a(c5_qua, C, -2);
-    lp.set_b(C++, 0); 
-    constr_names.push_back("10.B - c5_qua incid "); 
-
+    END_C(0) 
+START_C("10.C - LC incid")
     // 10.C
     lp.set_a(T3_0_large, C, 1); lp.set_a(T4_1_large, C, 1); lp.set_a(T5_0_large, C, 1);
     lp.set_a(F1_CC, C, 2);
     lp.set_a(F1_BC, C, 1);
     lp.set_a(F1_AC, C, 1);
     lp.set_a(F2_AC, C, 1);
-    lp.set_a(LC_INCIDENCE, C, -1);                                      
-    lp.set_b(C++, 0);
-    constr_names.push_back("10.C - LC incid "); 
+    lp.set_a(LC_INCIDENCE, C, -1);
+    END_C(0) 
 
 
 
@@ -415,28 +428,24 @@ int main() {
     // ##############################
     // A.3.1
     #include "include4/star_corners.inc"
+START_C("A3.2 - mystery 1 _LEQ")
     // ##############################
-
     // A.3.2
     lp.set_a(MC_5_qua, C, 1); lp.set_a(MC_7_pen, C, 1);
-    lp.set_a(mysterycell, C, -1); 
-    lp.set_b(C++, 0);
-    constr_names.push_back("A3.2 - mystery 1 "); 
-
+    lp.set_a(mysterycell, C, -1);
+    END_C(0) 
+START_C("A3.2 - mystery 1 _GEQ")
     lp.set_a(mysterycell, C, 1);
     lp.set_a(MC_5_qua, C, -1); lp.set_a(MC_7_pen, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("A3.2 - mystery 1 "); 
-
+    END_C(0) 
+START_C("A3.2 - mystery 2 ")
     lp.set_a(MC_5_qua, C, 2);
     lp.set_a(t0_c3_tri_c5_qua, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("A3.2 - mystery 2 "); 
-
+    END_C(0) 
+START_C("A3.2 - mystery 2 ")
     lp.set_a(MC_7_pen, C, 1);
     lp.set_a(c7_pen, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("A3.2 - mystery 2 "); 
+    END_C(0) 
 
 
     // ##############################
@@ -463,6 +472,7 @@ int main() {
     // this one does nothing. 
 
     /*
+START_C("test")
     lp.set_a(STAR_83, C, 1);
     lp.set_a(STAR_88, C, 1);
     lp.set_a(STAR_94, C, 1);
@@ -476,19 +486,16 @@ int main() {
     lp.set_a(STAR_17, C, 1);
     lp.set_a(STAR_25, C, 1);
     // --- and this is the point where it breaks again. (no longer! it broke when the E_0 safeguard was not set up)
-    lp.set_b(C++, 0);
-    constr_names.push_back("test "); 
+    END_C(0) 
     
     */
-        // breaks it 
-
-    // lets try to just forbit STAR_! under the "simple" assumptions: 
-
+START_C("test_Star1_special_simple")
+    // breaks it
+    // lets try to just forbit STAR_! under the "simple" assumptions:
     lp.set_a(STAR_1, C, 1);
     lp.set_a(c7_pen, C, -5);
-    lp.set_b(C++, 0);
-    constr_names.push_back("test_Star1_special_simple"); 
-
+    END_C(0) 
+START_C("test_X_naive_bound")
     lp.set_a(X, C, 4);
     lp.set_a(c3_tri, C, -3);
     lp.set_a(c4_qua, C, -4);
@@ -497,8 +504,7 @@ int main() {
     lp.set_a(c5_qua, C, -3);
     lp.set_a(c5_pen, C, -5);
     lp.set_a(SUM_LARGE, C, -1);
-    lp.set_b(C++, 0);
-    constr_names.push_back("test_X_naive_bound"); 
+    END_C(0) 
 
 
     // ------------------------------------

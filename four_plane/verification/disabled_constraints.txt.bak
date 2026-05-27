@@ -7,9 +7,9 @@
 #3.A cell->E_0 
 #3.A cell->E_0 _LEQ
 #3.A cell->E_0 _GEQ
-#3.B cell->E_outer
-#3.B cell->E_outer_LEQ
-#3.B cell->E_outer_GEQ
+3.B cell->E_outer
+3.B cell->E_outer_LEQ
+3.B cell->E_outer_GEQ
 6.b - T4 cumstom conf 
 6.b - T4 cumstom conf _LEQ
 6.b - T4 cumstom conf _GEQ
