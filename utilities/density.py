@@ -39,11 +39,11 @@ def get_density_constraint(tn:int, td:int)->str:
 
 
     inject= f""" // 1.A -- density formula with t = {t}
+                START_C("1.A / Density Formula")
                 lp.set_a(SUM_LARGE, C, {i6}); lp.set_a(E, C, {x}); lp.set_a(X, C, {x}); 
                 lp.set_a(c3_tri, C, {i3}); lp.set_a(c4_tri, C, {i4}); lp.set_a(c4_qua, C, {i4});
                 lp.set_a(c5_pen, C, {i5}); lp.set_a(c5_qua, C, {i5}); lp.set_a(c5_tri, C, {i5});
-                lp.set_b(C++, {it});
-                constr_names.push_back("1.A / Density Formula");"""
+                END_C({it})"""
     
     return inject
 

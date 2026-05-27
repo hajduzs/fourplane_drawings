@@ -48,22 +48,29 @@ std::string ConstraintManager::current_name;
 
 def refactor_content(content):
     # Pattern to match:
-    # 1. (Optional) Comment
-    # 2. Block of lp.set_a(...)
-    # 3. lp.set_b(C++, <val>);
-    # 4. constr_names.push_back("<name>");
+    # 1. A block of lines starting with lp.set_a or // (comments)
+    # 2. followed by lp.set_b(C++, <val>);
+    # 3. followed by constr_names.push_back("<name>");
     
-    # This regex is tricky because set_a can be multiple lines.
-    # We'll look for lp.set_b(C++, ...) and constr_names.push_back(...) as the anchor.
-    
-    pattern = re.compile(r'((?:lp\.set_a\([^;]+;\s*)+)lp\.set_b\(C\+\+,\s*([^)]+)\);\s*constr_names\.push_back\("([^"]+)"\);', re.MULTILINE)
+    # We use [^\n]* to match the rest of the line and \n to match the newline.
+    # This ensures we capture the entire line even if it has multiple lp.set_a calls.
+    pattern = re.compile(r'((?:^\s*(?:lp\.set_a|//)[^\n]*\n)+)\s*lp\.set_b\(C\+\+,\s*([^)]+)\);\s*constr_names\.push_back\("([^"]+)"\);', re.MULTILINE)
     
     def replace_func(match):
-        set_a_block = match.group(1).strip()
+        block = match.group(1).rstrip()
         b_val = match.group(2).strip()
         name = match.group(3).strip()
         
-        return f'START_C("{name}")\n    {set_a_block}\n    END_C({b_val})'
+        # Split into lines, strip them, and re-indent
+        lines = block.split("\n")
+        indented_lines = []
+        for line in lines:
+            if line.strip():
+                indented_lines.append("    " + line.strip())
+        
+        indented_block = "\n".join(indented_lines)
+        
+        return f'START_C("{name}")\n{indented_block}\n    END_C({b_val})'
 
     return pattern.sub(replace_func, content)
 

@@ -1,0 +1,63 @@
+#2.A = EO EX 
+#2.A = EO EX _LEQ
+#2.A = EO EX _GEQ
+#2.B = EX E1->4 
+#2.B = EX E1->4 _LEQ
+#2.B = EX E1->4 _GEQ
+#3.A cell->E_0 
+#3.A cell->E_0 _LEQ
+#3.A cell->E_0 _GEQ
+#3.B cell->E_outer
+#3.B cell->E_outer_LEQ
+#3.B cell->E_outer_GEQ
+6.b - T4 cumstom conf 
+6.b - T4 cumstom conf _LEQ
+6.b - T4 cumstom conf _GEQ
+6.E - trails in custom confs
+6.E - trails in custom confs_LEQ
+6.E - trails in custom confs_GEQ
+7.A1 - t3 custom - 5tri connection
+7.A1 - t3 custom - 5tri connection_LEQ
+7.A1 - t3 custom - 5tri connection_GEQ
+7.A2 - t4 custom - 5tri connection
+7.A2 - t4 custom - 5tri connection_LEQ
+7.A2 - t4 custom - 5tri connection_GEQ
+7.A3 - t5 custom - 5tri connection
+7.A3 - t5 custom - 5tri connection_LEQ
+7.A3 - t5 custom - 5tri connection_GEQ
+A1 - trail LBs:  t0_c4_tri_c5_pen
+A1 - trail LBs:  t0_c4_tri_c5_pen_LEQ
+A1 - trail LBs:  t0_c4_tri_c5_pen_GEQ
+A2 - ARM_1_2
+A2 - ARM_1_2_LEQ
+A2 - ARM_1_2_GEQ
+A2 - ARM_2_4
+A2 - ARM_2_4_LEQ
+A2 - ARM_2_4_GEQ
+A2 - ARM_3_3
+A2 - ARM_3_3_LEQ
+A2 - ARM_3_3_GEQ
+A3 - corner mysterycell
+A3 - corner mysterycell_LEQ
+A3 - corner mysterycell_GEQ
+A3.2 - mystery 1 
+A3.2 - mystery 1 _LEQ
+A3.2 - mystery 1 _GEQ
+A3.2 - mystery 2 
+A3.2 - mystery 2 _LEQ
+A3.2 - mystery 2 _GEQ
+A4 - AFC_1_2
+A4 - AFC_1_2_LEQ
+A4 - AFC_1_2_GEQ
+A4 - AFC_2_4
+A4 - AFC_2_4_LEQ
+A4 - AFC_2_4_GEQ
+A4 - AFC_3_3
+A4 - AFC_3_3_LEQ
+A4 - AFC_3_3_GEQ
+A5 - fans in arms - F3_AA
+A5 - fans in arms - F3_AA_LEQ
+A5 - fans in arms - F3_AA_GEQ
+test_X_naive_bound
+test_X_naive_bound_LEQ
+test_X_naive_bound_GEQ

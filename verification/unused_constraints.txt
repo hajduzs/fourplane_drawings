@@ -1,0 +1,45 @@
+2.A = EO EX _LEQ
+2.A = EO EX _GEQ
+2.B = EX E1->4 _LEQ
+2.C = EX X _GEQ
+3.A cell->E_0 _LEQ
+3.A cell->E_0 _GEQ
+4. -- c3_tri _LEQ
+4. -- c4_tri _LEQ
+4. -- c5_qua _GEQ
+4. -- c5_pen _GEQ
+4. -- c4_qua_GEQ
+5.A - fan _c4 _LEQ
+6.A - T3 cumstom conf _LEQ
+6.b - T4 cumstom conf _LEQ
+6.b - T4 cumstom conf _GEQ
+6.C - T5 cumstom conf _LEQ
+6.E - trails in custom confs
+7.A1 - t3 custom - 5tri connection
+7.A2 - t4 custom - 5tri connection
+7.A3 - t5 custom - 5tri connection
+8A - starSUM _LEQ
+A1 - trail LBs:  t0_c4_tri_c5_pen_LEQ
+A2 - ARM_1_2_LEQ
+A2 - ARM_2_4_LEQ
+A2 - ARM_3_3_LEQ
+A3 - corner mysterycell_LEQ
+A3.2 - mystery 1 _LEQ
+A3.2 - mystery 1 _GEQ
+A3.2 - mystery 2 
+A3.2 - mystery 2 
+A4 - AFC_0_2_LEQ
+A4 - AFC_0_3_LEQ
+A4 - AFC_1_2_LEQ
+A4 - AFC_1_2_GEQ
+A4 - AFC_2_2_LEQ
+A4 - AFC_2_3_LEQ
+A4 - AFC_2_4_LEQ
+A4 - AFC_2_4_GEQ
+A4 - AFC_3_3_LEQ
+A4 - AFC_3_3_GEQ
+A5 - fans in arms - F3_AA_LEQ
+A6 - Q_3_3_LEQ
+A6 - Q_2_9_LEQ
+A6 - Q_3_9_LEQ
+A6 - Q_9_9_LEQ

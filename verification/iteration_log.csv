@@ -1,0 +1,36 @@
+iteration,num_constraints,objective_value,unused_count
+1,123,-6/1,45
+2,123,-6/1,46
+1,123,-6/1,2.B = EX E1->4 (1)
+2,123,-6/1,2.C = EX X (1)
+1,123,-6/1,2.A = EO EX (1)
+2,123,-6/1,2.A = EO EX (2)
+3,123,-6/1,2.B = EX E1->4 (2)
+4,123,-6/1,2.B = EX E1->4 (1)
+5,123,-6/1,2.C = EX X (1)
+1,123,-6/1,2.A = EO EX (1)
+2,123,-6/1,2.A = EO EX (2)
+3,123,-6/1,2.B = EX E1->4 (2)
+4,123,-6/1,2.B = EX E1->4 (1)
+5,123,-6/1,2.C = EX X (1)
+1,123,-6/1,2.A = EO EX 
+2,121,-6/1,2.B = EX E1->4 
+3,119,-6/1,3.A cell->E_0 
+4,117,-6/1,3.B cell->E_outer
+5,116,-6/1,6.b - T4 cumstom conf 
+6,114,-6/1,6.E - trails in custom confs
+7,113,-6/1,7.A1 - t3 custom - 5tri connection
+8,112,-6/1,7.A2 - t4 custom - 5tri connection
+9,111,-6/1,7.A3 - t5 custom - 5tri connection
+10,110,-6/1,A1 - trail LBs:  t0_c4_tri_c5_pen
+11,109,-6/1,A2 - ARM_1_2
+12,108,-6/1,A2 - ARM_2_4
+13,107,-6/1,A2 - ARM_3_3
+14,106,-6/1,A3 - corner mysterycell
+15,105,-6/1,A3.2 - mystery 1 
+16,103,-6/1,A3.2 - mystery 2 
+17,101,-6/1,A4 - AFC_1_2
+18,99,-6/1,A4 - AFC_2_4
+19,97,-6/1,A4 - AFC_3_3
+20,95,-6/1,A5 - fans in arms - F3_AA
+21,94,-6/1,test_X_naive_bound

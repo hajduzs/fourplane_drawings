@@ -17,73 +17,73 @@
   const int QTC_3_3_t2_large_large = VAR++; var_names.push_back("QTC_3_3_t2_large_large");
   const int QTC_3_3_t3_c4_tri_large = VAR++; var_names.push_back("QTC_3_3_t3_c4_tri_large");
   const int QTC_3_3_t3_large_large = VAR++; var_names.push_back("QTC_3_3_t3_large_large");
-  lp.set_a(QTC_3_3_t1_c3_tri_c5_pen, C, 1);
-  lp.set_a(QTC_3_3_t1_c3_tri_c5_qua, C, 1);
-  lp.set_a(QTC_3_3_t1_c3_tri_large, C, 1);
-  lp.set_a(QTC_3_3_t1_c5_pen_c5_pen, C, 1);
-  lp.set_a(QTC_3_3_t1_c5_pen_c5_qua, C, 1);
-  lp.set_a(QTC_3_3_t1_c5_pen_large, C, 1);
-  lp.set_a(QTC_3_3_t1_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_3_3_t1_c5_qua_large, C, 1);
-  lp.set_a(QTC_3_3_t1_large_large, C, 1);
-  lp.set_a(QTC_3_3_t2_c3_tri_large, C, 1);
-  lp.set_a(QTC_3_3_t2_c4_tri_c5_pen, C, 1);
-  lp.set_a(QTC_3_3_t2_c4_tri_c5_qua, C, 1);
-  lp.set_a(QTC_3_3_t2_c4_tri_large, C, 1);
-  lp.set_a(QTC_3_3_t2_c5_pen_large, C, 1);
-  lp.set_a(QTC_3_3_t2_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_3_3_t2_c5_qua_large, C, 1);
-  lp.set_a(QTC_3_3_t2_large_large, C, 1);
-  lp.set_a(QTC_3_3_t3_c4_tri_large, C, 1);
-  lp.set_a(QTC_3_3_t3_large_large, C, 1);
-  lp.set_a(Q_3_3, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A6 - Q_3_3_LEQ");
+  START_C("A6 - Q_3_3_LEQ")
+    lp.set_a(QTC_3_3_t1_c3_tri_c5_pen, C, 1);
+    lp.set_a(QTC_3_3_t1_c3_tri_c5_qua, C, 1);
+    lp.set_a(QTC_3_3_t1_c3_tri_large, C, 1);
+    lp.set_a(QTC_3_3_t1_c5_pen_c5_pen, C, 1);
+    lp.set_a(QTC_3_3_t1_c5_pen_c5_qua, C, 1);
+    lp.set_a(QTC_3_3_t1_c5_pen_large, C, 1);
+    lp.set_a(QTC_3_3_t1_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_3_3_t1_c5_qua_large, C, 1);
+    lp.set_a(QTC_3_3_t1_large_large, C, 1);
+    lp.set_a(QTC_3_3_t2_c3_tri_large, C, 1);
+    lp.set_a(QTC_3_3_t2_c4_tri_c5_pen, C, 1);
+    lp.set_a(QTC_3_3_t2_c4_tri_c5_qua, C, 1);
+    lp.set_a(QTC_3_3_t2_c4_tri_large, C, 1);
+    lp.set_a(QTC_3_3_t2_c5_pen_large, C, 1);
+    lp.set_a(QTC_3_3_t2_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_3_3_t2_c5_qua_large, C, 1);
+    lp.set_a(QTC_3_3_t2_large_large, C, 1);
+    lp.set_a(QTC_3_3_t3_c4_tri_large, C, 1);
+    lp.set_a(QTC_3_3_t3_large_large, C, 1);
+    lp.set_a(Q_3_3, C, -1);
+    END_C(0)
 
-  lp.set_a(QTC_3_3_t1_c3_tri_c5_pen, C, -1);
-  lp.set_a(QTC_3_3_t1_c3_tri_c5_qua, C, -1);
-  lp.set_a(QTC_3_3_t1_c3_tri_large, C, -1);
-  lp.set_a(QTC_3_3_t1_c5_pen_c5_pen, C, -1);
-  lp.set_a(QTC_3_3_t1_c5_pen_c5_qua, C, -1);
-  lp.set_a(QTC_3_3_t1_c5_pen_large, C, -1);
-  lp.set_a(QTC_3_3_t1_c5_qua_c5_qua, C, -1);
-  lp.set_a(QTC_3_3_t1_c5_qua_large, C, -1);
-  lp.set_a(QTC_3_3_t1_large_large, C, -1);
-  lp.set_a(QTC_3_3_t2_c3_tri_large, C, -1);
-  lp.set_a(QTC_3_3_t2_c4_tri_c5_pen, C, -1);
-  lp.set_a(QTC_3_3_t2_c4_tri_c5_qua, C, -1);
-  lp.set_a(QTC_3_3_t2_c4_tri_large, C, -1);
-  lp.set_a(QTC_3_3_t2_c5_pen_large, C, -1);
-  lp.set_a(QTC_3_3_t2_c5_qua_c5_qua, C, -1);
-  lp.set_a(QTC_3_3_t2_c5_qua_large, C, -1);
-  lp.set_a(QTC_3_3_t2_large_large, C, -1);
-  lp.set_a(QTC_3_3_t3_c4_tri_large, C, -1);
-  lp.set_a(QTC_3_3_t3_large_large, C, -1);
-  lp.set_a(Q_3_3, C, 1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A6 - Q_3_3_GEQ");
+  START_C("A6 - Q_3_3_GEQ")
+    lp.set_a(QTC_3_3_t1_c3_tri_c5_pen, C, -1);
+    lp.set_a(QTC_3_3_t1_c3_tri_c5_qua, C, -1);
+    lp.set_a(QTC_3_3_t1_c3_tri_large, C, -1);
+    lp.set_a(QTC_3_3_t1_c5_pen_c5_pen, C, -1);
+    lp.set_a(QTC_3_3_t1_c5_pen_c5_qua, C, -1);
+    lp.set_a(QTC_3_3_t1_c5_pen_large, C, -1);
+    lp.set_a(QTC_3_3_t1_c5_qua_c5_qua, C, -1);
+    lp.set_a(QTC_3_3_t1_c5_qua_large, C, -1);
+    lp.set_a(QTC_3_3_t1_large_large, C, -1);
+    lp.set_a(QTC_3_3_t2_c3_tri_large, C, -1);
+    lp.set_a(QTC_3_3_t2_c4_tri_c5_pen, C, -1);
+    lp.set_a(QTC_3_3_t2_c4_tri_c5_qua, C, -1);
+    lp.set_a(QTC_3_3_t2_c4_tri_large, C, -1);
+    lp.set_a(QTC_3_3_t2_c5_pen_large, C, -1);
+    lp.set_a(QTC_3_3_t2_c5_qua_c5_qua, C, -1);
+    lp.set_a(QTC_3_3_t2_c5_qua_large, C, -1);
+    lp.set_a(QTC_3_3_t2_large_large, C, -1);
+    lp.set_a(QTC_3_3_t3_c4_tri_large, C, -1);
+    lp.set_a(QTC_3_3_t3_large_large, C, -1);
+    lp.set_a(Q_3_3, C, 1);
+    END_C(0)
   const int QTC_2_9_t1_c4_tri_c5_qua = VAR++; var_names.push_back("QTC_2_9_t1_c4_tri_c5_qua");
   const int QTC_2_9_t1_c4_tri_large = VAR++; var_names.push_back("QTC_2_9_t1_c4_tri_large");
   const int QTC_2_9_t1_c5_qua_c5_qua = VAR++; var_names.push_back("QTC_2_9_t1_c5_qua_c5_qua");
   const int QTC_2_9_t1_c5_qua_large = VAR++; var_names.push_back("QTC_2_9_t1_c5_qua_large");
   const int QTC_2_9_t1_large_large = VAR++; var_names.push_back("QTC_2_9_t1_large_large");
-  lp.set_a(QTC_2_9_t1_c4_tri_c5_qua, C, 1);
-  lp.set_a(QTC_2_9_t1_c4_tri_large, C, 1);
-  lp.set_a(QTC_2_9_t1_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_2_9_t1_c5_qua_large, C, 1);
-  lp.set_a(QTC_2_9_t1_large_large, C, 1);
-  lp.set_a(Q_2_9, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A6 - Q_2_9_LEQ");
+  START_C("A6 - Q_2_9_LEQ")
+    lp.set_a(QTC_2_9_t1_c4_tri_c5_qua, C, 1);
+    lp.set_a(QTC_2_9_t1_c4_tri_large, C, 1);
+    lp.set_a(QTC_2_9_t1_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_2_9_t1_c5_qua_large, C, 1);
+    lp.set_a(QTC_2_9_t1_large_large, C, 1);
+    lp.set_a(Q_2_9, C, -1);
+    END_C(0)
 
-  lp.set_a(QTC_2_9_t1_c4_tri_c5_qua, C, -1);
-  lp.set_a(QTC_2_9_t1_c4_tri_large, C, -1);
-  lp.set_a(QTC_2_9_t1_c5_qua_c5_qua, C, -1);
-  lp.set_a(QTC_2_9_t1_c5_qua_large, C, -1);
-  lp.set_a(QTC_2_9_t1_large_large, C, -1);
-  lp.set_a(Q_2_9, C, 1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A6 - Q_2_9_GEQ");
+  START_C("A6 - Q_2_9_GEQ")
+    lp.set_a(QTC_2_9_t1_c4_tri_c5_qua, C, -1);
+    lp.set_a(QTC_2_9_t1_c4_tri_large, C, -1);
+    lp.set_a(QTC_2_9_t1_c5_qua_c5_qua, C, -1);
+    lp.set_a(QTC_2_9_t1_c5_qua_large, C, -1);
+    lp.set_a(QTC_2_9_t1_large_large, C, -1);
+    lp.set_a(Q_2_9, C, 1);
+    END_C(0)
   const int QTC_3_9_t1_c3_tri_c5_qua = VAR++; var_names.push_back("QTC_3_9_t1_c3_tri_c5_qua");
   const int QTC_3_9_t1_c3_tri_large = VAR++; var_names.push_back("QTC_3_9_t1_c3_tri_large");
   const int QTC_3_9_t1_c5_pen_c5_qua = VAR++; var_names.push_back("QTC_3_9_t1_c5_pen_c5_qua");
@@ -96,152 +96,152 @@
   const int QTC_3_9_t2_c5_qua_c5_qua = VAR++; var_names.push_back("QTC_3_9_t2_c5_qua_c5_qua");
   const int QTC_3_9_t2_c5_qua_large = VAR++; var_names.push_back("QTC_3_9_t2_c5_qua_large");
   const int QTC_3_9_t2_large_large = VAR++; var_names.push_back("QTC_3_9_t2_large_large");
-  lp.set_a(QTC_3_9_t1_c3_tri_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t1_c3_tri_large, C, 1);
-  lp.set_a(QTC_3_9_t1_c5_pen_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t1_c5_pen_large, C, 1);
-  lp.set_a(QTC_3_9_t1_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t1_c5_qua_large, C, 1);
-  lp.set_a(QTC_3_9_t1_large_large, C, 1);
-  lp.set_a(QTC_3_9_t2_c4_tri_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t2_c4_tri_large, C, 1);
-  lp.set_a(QTC_3_9_t2_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t2_c5_qua_large, C, 1);
-  lp.set_a(QTC_3_9_t2_large_large, C, 1);
-  lp.set_a(Q_3_9, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A6 - Q_3_9_LEQ");
+  START_C("A6 - Q_3_9_LEQ")
+    lp.set_a(QTC_3_9_t1_c3_tri_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t1_c3_tri_large, C, 1);
+    lp.set_a(QTC_3_9_t1_c5_pen_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t1_c5_pen_large, C, 1);
+    lp.set_a(QTC_3_9_t1_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t1_c5_qua_large, C, 1);
+    lp.set_a(QTC_3_9_t1_large_large, C, 1);
+    lp.set_a(QTC_3_9_t2_c4_tri_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t2_c4_tri_large, C, 1);
+    lp.set_a(QTC_3_9_t2_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t2_c5_qua_large, C, 1);
+    lp.set_a(QTC_3_9_t2_large_large, C, 1);
+    lp.set_a(Q_3_9, C, -1);
+    END_C(0)
 
-  lp.set_a(QTC_3_9_t1_c3_tri_c5_qua, C, -1);
-  lp.set_a(QTC_3_9_t1_c3_tri_large, C, -1);
-  lp.set_a(QTC_3_9_t1_c5_pen_c5_qua, C, -1);
-  lp.set_a(QTC_3_9_t1_c5_pen_large, C, -1);
-  lp.set_a(QTC_3_9_t1_c5_qua_c5_qua, C, -1);
-  lp.set_a(QTC_3_9_t1_c5_qua_large, C, -1);
-  lp.set_a(QTC_3_9_t1_large_large, C, -1);
-  lp.set_a(QTC_3_9_t2_c4_tri_c5_qua, C, -1);
-  lp.set_a(QTC_3_9_t2_c4_tri_large, C, -1);
-  lp.set_a(QTC_3_9_t2_c5_qua_c5_qua, C, -1);
-  lp.set_a(QTC_3_9_t2_c5_qua_large, C, -1);
-  lp.set_a(QTC_3_9_t2_large_large, C, -1);
-  lp.set_a(Q_3_9, C, 1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A6 - Q_3_9_GEQ");
+  START_C("A6 - Q_3_9_GEQ")
+    lp.set_a(QTC_3_9_t1_c3_tri_c5_qua, C, -1);
+    lp.set_a(QTC_3_9_t1_c3_tri_large, C, -1);
+    lp.set_a(QTC_3_9_t1_c5_pen_c5_qua, C, -1);
+    lp.set_a(QTC_3_9_t1_c5_pen_large, C, -1);
+    lp.set_a(QTC_3_9_t1_c5_qua_c5_qua, C, -1);
+    lp.set_a(QTC_3_9_t1_c5_qua_large, C, -1);
+    lp.set_a(QTC_3_9_t1_large_large, C, -1);
+    lp.set_a(QTC_3_9_t2_c4_tri_c5_qua, C, -1);
+    lp.set_a(QTC_3_9_t2_c4_tri_large, C, -1);
+    lp.set_a(QTC_3_9_t2_c5_qua_c5_qua, C, -1);
+    lp.set_a(QTC_3_9_t2_c5_qua_large, C, -1);
+    lp.set_a(QTC_3_9_t2_large_large, C, -1);
+    lp.set_a(Q_3_9, C, 1);
+    END_C(0)
   const int QTC_9_9_t1_c5_qua_c5_qua = VAR++; var_names.push_back("QTC_9_9_t1_c5_qua_c5_qua");
   const int QTC_9_9_t1_c5_qua_large = VAR++; var_names.push_back("QTC_9_9_t1_c5_qua_large");
   const int QTC_9_9_t1_large_large = VAR++; var_names.push_back("QTC_9_9_t1_large_large");
-  lp.set_a(QTC_9_9_t1_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_9_9_t1_c5_qua_large, C, 1);
-  lp.set_a(QTC_9_9_t1_large_large, C, 1);
-  lp.set_a(Q_9_9, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A6 - Q_9_9_LEQ");
+  START_C("A6 - Q_9_9_LEQ")
+    lp.set_a(QTC_9_9_t1_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_9_9_t1_c5_qua_large, C, 1);
+    lp.set_a(QTC_9_9_t1_large_large, C, 1);
+    lp.set_a(Q_9_9, C, -1);
+    END_C(0)
 
-  lp.set_a(QTC_9_9_t1_c5_qua_c5_qua, C, -1);
-  lp.set_a(QTC_9_9_t1_c5_qua_large, C, -1);
-  lp.set_a(QTC_9_9_t1_large_large, C, -1);
-  lp.set_a(Q_9_9, C, 1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A6 - Q_9_9_GEQ");
-  lp.set_a(QTC_3_3_t1_c5_pen_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t1_c5_pen_c5_qua, C, 1);
-  lp.set_a(t1_c5_pen_c5_qua, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c5_pen_c5_qua_LEQ");
-  lp.set_a(QTC_3_3_t2_c4_tri_large, C, 1);
-  lp.set_a(QTC_3_9_t2_c4_tri_large, C, 1);
-  lp.set_a(t2_c4_tri_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t2_c4_tri_large_LEQ");
-  lp.set_a(QTC_3_3_t3_c4_tri_large, C, 1);
-  lp.set_a(t3_c4_tri_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t3_c4_tri_large_LEQ");
-  lp.set_a(QTC_2_9_t1_c4_tri_c5_qua, C, 1);
-  lp.set_a(t1_c4_tri_c5_qua, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c4_tri_c5_qua_LEQ");
-  lp.set_a(QTC_3_3_t2_c4_tri_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t2_c4_tri_c5_qua, C, 1);
-  lp.set_a(t2_c4_tri_c5_qua, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t2_c4_tri_c5_qua_LEQ");
-  lp.set_a(QTC_3_3_t2_c5_qua_large, C, 1);
-  lp.set_a(QTC_3_9_t2_c5_qua_large, C, 1);
-  lp.set_a(t2_c5_qua_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t2_c5_qua_large_LEQ");
-  lp.set_a(QTC_3_3_t1_c3_tri_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t1_c3_tri_c5_qua, C, 1);
-  lp.set_a(t1_c3_tri_c5_qua, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c3_tri_c5_qua_LEQ");
-  lp.set_a(QTC_3_3_t2_c5_pen_large, C, 1);
-  lp.set_a(t2_c5_pen_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t2_c5_pen_large_LEQ");
-  lp.set_a(QTC_2_9_t1_c4_tri_large, C, 1);
-  lp.set_a(t1_c4_tri_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c4_tri_large_LEQ");
-  lp.set_a(QTC_3_3_t1_c5_qua_large, C, 1);
-  lp.set_a(QTC_2_9_t1_c5_qua_large, C, 1);
-  lp.set_a(QTC_3_9_t1_c5_qua_large, C, 1);
-  lp.set_a(QTC_9_9_t1_c5_qua_large, C, 1);
-  lp.set_a(t1_c5_qua_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c5_qua_large_LEQ");
-  lp.set_a(QTC_3_3_t1_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_2_9_t1_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t1_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_9_9_t1_c5_qua_c5_qua, C, 1);
-  lp.set_a(t1_c5_qua_c5_qua, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c5_qua_c5_qua_LEQ");
-  lp.set_a(QTC_3_3_t2_c4_tri_c5_pen, C, 1);
-  lp.set_a(t2_c4_tri_c5_pen, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t2_c4_tri_c5_pen_LEQ");
-  lp.set_a(QTC_3_3_t1_c3_tri_c5_pen, C, 1);
-  lp.set_a(t1_c3_tri_c5_pen, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c3_tri_c5_pen_LEQ");
-  lp.set_a(QTC_3_3_t2_c5_qua_c5_qua, C, 1);
-  lp.set_a(QTC_3_9_t2_c5_qua_c5_qua, C, 1);
-  lp.set_a(t2_c5_qua_c5_qua, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t2_c5_qua_c5_qua_LEQ");
-  lp.set_a(QTC_3_3_t1_c5_pen_c5_pen, C, 1);
-  lp.set_a(t1_c5_pen_c5_pen, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c5_pen_c5_pen_LEQ");
-  lp.set_a(QTC_3_3_t1_large_large, C, 1);
-  lp.set_a(QTC_2_9_t1_large_large, C, 1);
-  lp.set_a(QTC_3_9_t1_large_large, C, 1);
-  lp.set_a(QTC_9_9_t1_large_large, C, 1);
-  lp.set_a(t1_large_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_large_large_LEQ");
-  lp.set_a(QTC_3_3_t2_large_large, C, 1);
-  lp.set_a(QTC_3_9_t2_large_large, C, 1);
-  lp.set_a(t2_large_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t2_large_large_LEQ");
-  lp.set_a(QTC_3_3_t3_large_large, C, 1);
-  lp.set_a(t3_large_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t3_large_large_LEQ");
-  lp.set_a(QTC_3_3_t1_c3_tri_large, C, 1);
-  lp.set_a(QTC_3_9_t1_c3_tri_large, C, 1);
-  lp.set_a(t1_c3_tri_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c3_tri_large_LEQ");
-  lp.set_a(QTC_3_3_t1_c5_pen_large, C, 1);
-  lp.set_a(QTC_3_9_t1_c5_pen_large, C, 1);
-  lp.set_a(t1_c5_pen_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t1_c5_pen_large_LEQ");
-  lp.set_a(QTC_3_3_t2_c3_tri_large, C, 1);
-  lp.set_a(t2_c3_tri_large, C, -1);
-   lp.set_b(C++, 0);
-  constr_names.push_back("A7 - t2_c3_tri_large_LEQ");
+  START_C("A6 - Q_9_9_GEQ")
+    lp.set_a(QTC_9_9_t1_c5_qua_c5_qua, C, -1);
+    lp.set_a(QTC_9_9_t1_c5_qua_large, C, -1);
+    lp.set_a(QTC_9_9_t1_large_large, C, -1);
+    lp.set_a(Q_9_9, C, 1);
+    END_C(0)
+  START_C("A7 - t3_c4_tri_large_LEQ")
+    lp.set_a(QTC_3_3_t3_c4_tri_large, C, 1);
+    lp.set_a(t3_c4_tri_large, C, -1);
+    END_C(0)
+  START_C("A7 - t2_large_large_LEQ")
+    lp.set_a(QTC_3_3_t2_large_large, C, 1);
+    lp.set_a(QTC_3_9_t2_large_large, C, 1);
+    lp.set_a(t2_large_large, C, -1);
+    END_C(0)
+  START_C("A7 - t2_c4_tri_c5_pen_LEQ")
+    lp.set_a(QTC_3_3_t2_c4_tri_c5_pen, C, 1);
+    lp.set_a(t2_c4_tri_c5_pen, C, -1);
+    END_C(0)
+  START_C("A7 - t1_large_large_LEQ")
+    lp.set_a(QTC_3_3_t1_large_large, C, 1);
+    lp.set_a(QTC_2_9_t1_large_large, C, 1);
+    lp.set_a(QTC_3_9_t1_large_large, C, 1);
+    lp.set_a(QTC_9_9_t1_large_large, C, 1);
+    lp.set_a(t1_large_large, C, -1);
+    END_C(0)
+  START_C("A7 - t2_c4_tri_c5_qua_LEQ")
+    lp.set_a(QTC_3_3_t2_c4_tri_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t2_c4_tri_c5_qua, C, 1);
+    lp.set_a(t2_c4_tri_c5_qua, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c4_tri_c5_qua_LEQ")
+    lp.set_a(QTC_2_9_t1_c4_tri_c5_qua, C, 1);
+    lp.set_a(t1_c4_tri_c5_qua, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c5_pen_c5_pen_LEQ")
+    lp.set_a(QTC_3_3_t1_c5_pen_c5_pen, C, 1);
+    lp.set_a(t1_c5_pen_c5_pen, C, -1);
+    END_C(0)
+  START_C("A7 - t2_c5_qua_large_LEQ")
+    lp.set_a(QTC_3_3_t2_c5_qua_large, C, 1);
+    lp.set_a(QTC_3_9_t2_c5_qua_large, C, 1);
+    lp.set_a(t2_c5_qua_large, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c5_pen_c5_qua_LEQ")
+    lp.set_a(QTC_3_3_t1_c5_pen_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t1_c5_pen_c5_qua, C, 1);
+    lp.set_a(t1_c5_pen_c5_qua, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c3_tri_c5_pen_LEQ")
+    lp.set_a(QTC_3_3_t1_c3_tri_c5_pen, C, 1);
+    lp.set_a(t1_c3_tri_c5_pen, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c5_qua_large_LEQ")
+    lp.set_a(QTC_3_3_t1_c5_qua_large, C, 1);
+    lp.set_a(QTC_2_9_t1_c5_qua_large, C, 1);
+    lp.set_a(QTC_3_9_t1_c5_qua_large, C, 1);
+    lp.set_a(QTC_9_9_t1_c5_qua_large, C, 1);
+    lp.set_a(t1_c5_qua_large, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c3_tri_large_LEQ")
+    lp.set_a(QTC_3_3_t1_c3_tri_large, C, 1);
+    lp.set_a(QTC_3_9_t1_c3_tri_large, C, 1);
+    lp.set_a(t1_c3_tri_large, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c5_qua_c5_qua_LEQ")
+    lp.set_a(QTC_3_3_t1_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_2_9_t1_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t1_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_9_9_t1_c5_qua_c5_qua, C, 1);
+    lp.set_a(t1_c5_qua_c5_qua, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c3_tri_c5_qua_LEQ")
+    lp.set_a(QTC_3_3_t1_c3_tri_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t1_c3_tri_c5_qua, C, 1);
+    lp.set_a(t1_c3_tri_c5_qua, C, -1);
+    END_C(0)
+  START_C("A7 - t2_c3_tri_large_LEQ")
+    lp.set_a(QTC_3_3_t2_c3_tri_large, C, 1);
+    lp.set_a(t2_c3_tri_large, C, -1);
+    END_C(0)
+  START_C("A7 - t2_c5_pen_large_LEQ")
+    lp.set_a(QTC_3_3_t2_c5_pen_large, C, 1);
+    lp.set_a(t2_c5_pen_large, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c4_tri_large_LEQ")
+    lp.set_a(QTC_2_9_t1_c4_tri_large, C, 1);
+    lp.set_a(t1_c4_tri_large, C, -1);
+    END_C(0)
+  START_C("A7 - t3_large_large_LEQ")
+    lp.set_a(QTC_3_3_t3_large_large, C, 1);
+    lp.set_a(t3_large_large, C, -1);
+    END_C(0)
+  START_C("A7 - t2_c5_qua_c5_qua_LEQ")
+    lp.set_a(QTC_3_3_t2_c5_qua_c5_qua, C, 1);
+    lp.set_a(QTC_3_9_t2_c5_qua_c5_qua, C, 1);
+    lp.set_a(t2_c5_qua_c5_qua, C, -1);
+    END_C(0)
+  START_C("A7 - t1_c5_pen_large_LEQ")
+    lp.set_a(QTC_3_3_t1_c5_pen_large, C, 1);
+    lp.set_a(QTC_3_9_t1_c5_pen_large, C, 1);
+    lp.set_a(t1_c5_pen_large, C, -1);
+    END_C(0)
+  START_C("A7 - t2_c4_tri_large_LEQ")
+    lp.set_a(QTC_3_3_t2_c4_tri_large, C, 1);
+    lp.set_a(QTC_3_9_t2_c4_tri_large, C, 1);
+    lp.set_a(t2_c4_tri_large, C, -1);
+    END_C(0)
